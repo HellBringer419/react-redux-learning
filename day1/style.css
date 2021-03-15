@@ -1,0 +1,127 @@
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    background-color: #2c3e50;
+    min-height: 4rem;
+    color: #ededed;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.profile-pic {
+    padding: 0 0.5rem 0 0.5rem;
+}
+
+.brand {
+    font-size: larger;
+    font-weight: bolder;
+    margin-left: 0.8rem;
+}
+
+.logo {
+    margin-left: auto;
+    padding: 0 0.5rem 0 0.5rem;
+}
+
+.body {
+    padding: 0 1rem 0.8rem 1rem;
+    display: grid;
+    place-content: center;
+}
+
+.heading {
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+}
+
+.image {
+    max-width: 100%;
+    display: block;
+    height: auto;
+    padding: 0.2rem;
+}
+
+.carousel-wrapper {
+    overflow: hidden;
+    width: 90%;
+}
+
+.carousel-wrapper * {
+    box-sizing: border-box;
+}
+
+.carousel {
+    transform-style: preserve-3d;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.carousel-image {
+    display: none;
+    opacity: 0;
+    margin: auto;
+    padding: 1rem 4rem;
+    z-index: 100;
+    transition: transform 0.5s, opacity 0.5s, z-index 0.5s;
+}
+
+.carousel-image.initial,
+.carousel-image.active {
+    display: block;
+    opacity: 1;
+    z-index: 900;
+}
+
+.carousel-image.prev,
+.carousel-image.next {
+    z-index: 800;
+}
+.carousel-image.prev {
+    transform: translateX(-100%); /* Move 'prev' item to the left */
+}
+.carousel-image.next {
+    transform: translateX(100%); /* Move 'next' item to the right */
+}
+
+.carousel-btn-prev,
+.carousel-btn-next {
+    width: 8rem;
+    height: 3rem;
+    background-color: #fff;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+    z-index: 1001; /* Sit on top of everything */
+}
+
+/* .carousel-btn-prev::after, .carousel-btn-next::after {
+    content: " ";
+  width: 10px;
+  height: 10px;
+  transform: translate(-50%, -50%) rotate(135deg);
+} */
+
+/* .carousel-btn-next::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+} */
+
+/* .body p {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+} */
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    background-color: #2c3e50;
+    min-height: 4rem;
+    color: #ededed;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
