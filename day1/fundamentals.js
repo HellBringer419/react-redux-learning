@@ -50,11 +50,11 @@ const moveCarouselTo = (slideNumber) => {
             
             // Now we've worked out where we are and where we're going,
             // by adding/removing classes we'll trigger the transitions.      // Reset old next/prev elements to default classes
-            items[oldPrev].className = "carousel-image";
-            items[oldNext].className = "carousel-image"; // Add new classes
-            items[newPrev].className = "carousel-image" + " prev";
-            items[slideNumber].className = "carousel-image" + " active";
-            items[newNext].className = "carousel-image" + " next";
+            items[oldPrev].className = "image carousel-image";
+            items[oldNext].className = "image carousel-image"; // Add new classes
+            items[newPrev].className = "image carousel-image" + " prev";
+            items[slideNumber].className = "image carousel-image" + " active";
+            items[newNext].className = "image carousel-image" + " next";
         }
     }
 };

@@ -27,9 +27,11 @@
 }
 
 .body {
-    padding: 0 1rem 0.8rem 1rem;
-    display: grid;
-    place-content: center;
+    padding: 4rem 1rem 0.8rem 1rem;
+    /* display: grid;
+    place-content: center; */
+    margin: auto;
+    max-width: 1000px;
 }
 
 .heading {
@@ -43,12 +45,13 @@
     display: block;
     height: auto;
     padding: 0.2rem;
+    width: 100%;
 }
-
+/* 
 .carousel-wrapper {
     overflow: hidden;
     width: 90%;
-}
+} */
 
 .carousel-wrapper * {
     box-sizing: border-box;
@@ -59,13 +62,13 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    width: 90%;
 }
 
 .carousel-image {
     display: none;
     opacity: 0;
     margin: auto;
-    padding: 1rem 4rem;
     z-index: 100;
     transition: transform 0.5s, opacity 0.5s, z-index 0.5s;
 }
