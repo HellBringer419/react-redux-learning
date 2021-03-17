@@ -1,7 +1,8 @@
-import '../stylesheets/style.css';
-import Carousel from './Carousel';
+import "../stylesheets/style.css";
 
+// import Carousel from "./Carousel";
 import Footer from "./Footer";
+import LoginWrapper from "./LoginWrapper";
 import Nav from "./Nav";
 
 const Home = (props) => {
@@ -9,8 +10,8 @@ const Home = (props) => {
         <div>
             <Nav />
             <div className="body">
-        <h4 className="heading"> Carousel </h4>
-            <Carousel />
+                <h4 className="heading"> Login Here </h4>
+                <LoginWrapper />
             </div>
             <Footer />
         </div>

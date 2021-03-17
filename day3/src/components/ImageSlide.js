@@ -1,5 +1,5 @@
-const ImageSlide = ({url}) => {
+const ImageSlide = ({ url }) => {
     return <img src={url} alt="" className="image" />;
-}
+};
 
-export default ImageSlide
+export default ImageSlide;
