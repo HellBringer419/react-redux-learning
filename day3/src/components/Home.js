@@ -1,17 +1,19 @@
+import { useParams } from "react-router";
 import "../stylesheets/style.css";
 
-// import Carousel from "./Carousel";
+import Carousel from "./Carousel";
 import Footer from "./Footer";
-import LoginWrapper from "./LoginWrapper";
 import Nav from "./Nav";
 
-const Home = (props) => {
+const Home = ({ history, toggleLoginState }) => {
+    const user = useParams();
+
     return (
         <div>
-            <Nav />
+            <Nav history={history} toggleLoginState={toggleLoginState} />
             <div className="body">
-                <h4 className="heading"> Login Here </h4>
-                <LoginWrapper />
+                <h4 className="heading"> Welcome {user.user} </h4>
+                <Carousel />
             </div>
             <Footer />
         </div>

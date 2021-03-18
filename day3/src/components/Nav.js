@@ -1,4 +1,9 @@
 const Nav = (props) => {
+    const handleLogout = () => {
+        props.toggleLoginState();
+        props.history.push("/");
+    };
+
     return (
         <header className="topbar">
             <span className="profile-pic">
@@ -10,6 +15,7 @@ const Nav = (props) => {
                 />
             </span>
             <span className="brand">John Doe</span>
+            <button onClick={handleLogout}>logout</button>
 
             <span className="logo">
                 <img

@@ -9,13 +9,13 @@
 }
 
 .profile-pic {
-    padding: 0 0.5rem 0 0.5rem;
+    padding: 0 0.5rem;
 }
 
 .brand {
     font-size: larger;
     font-weight: bolder;
-    margin-left: 0.8rem;
+    margin: 0 0.8rem;
 }
 
 .logo {
