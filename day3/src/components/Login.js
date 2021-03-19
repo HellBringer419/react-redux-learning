@@ -54,7 +54,7 @@ class Login extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} className="container">
                 {this.state.errors.email ? (
                     <div> Please enter a valid email </div>
                 ) : (
