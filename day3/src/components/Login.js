@@ -7,12 +7,13 @@ class Login extends Component {
             email: "",
             password: "",
             isValidated: false,
-            errors: { email: true, password: true },
+            errors: { email: false, password: false },
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.isValidEmail = this.isValidEmail.bind(this);
         this.isValidPassword = this.isValidPassword.bind(this);
+        this.resetFields = this.resetFields.bind(this);
     }
 
     handleChange(event) {
@@ -48,57 +49,77 @@ class Login extends Component {
         if (this.isValidEmail() && this.isValidPassword()) {
             this.setState({ isValidated: true });
             this.props.toggleLoginState();
-            this.props.history.push(`/home/${this.state.email}`)
+            this.props.history.push(`/home/${this.state.email}`);
         }
+    }
+
+    resetFields() {
+        this.setState({
+            email: "",
+            password: "",
+            errors: { email: false, password: false },
+        });
     }
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit} className="container">
-                {this.state.errors.email ? (
-                    <div> Please enter a valid email </div>
-                ) : (
-                    " "
-                )}
-                {this.state.errors.password ? (
-                    <div> Please enter a valid password </div>
-                ) : (
-                    " "
-                )}
-                <div>
-                    <label htmlFor="email"> Email: </label>
-                    <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        value={this.state.email}
-                        onChange={this.handleChange}
-                        onBlur={this.isValidEmail}
-                    />
-                </div>
+            <div className="container mt-5">
+                <form onSubmit={this.handleSubmit}>
+                    <h2 className="my-3"> Login here </h2>
+                    {this.state.errors.email ? (
+                        <div className="alert alert-danger">
+                            {" "}
+                            Please enter a valid email{" "}
+                        </div>
+                    ) : (
+                        " "
+                    )}
+                    {this.state.errors.password ? (
+                        <div className="alert alert-danger">
+                            {" "}
+                            Please enter a valid password{" "}
+                        </div>
+                    ) : (
+                        " "
+                    )}
+                    <div className="mb-3">
+                        <label htmlFor="email" className="form-label"> Email: </label>
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            className="form-control"
+                            value={this.state.email}
+                            onChange={this.handleChange}
+                            onBlur={this.isValidEmail}
+                        />
+                    </div>
 
-                <div>
-                    <label htmlFor=""> Password: </label>
+                    <div className="mb-3">
+                        <label htmlFor="password" className="form-label"> Password: </label>
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            className="form-control"
+                            value={this.state.password}
+                            onChange={this.handleChange}
+                            onBlur={this.isValidPassword}
+                        />
+                    </div>
                     <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        value={this.state.password}
-                        onChange={this.handleChange}
-                        onBlur={this.isValidPassword}
+                        type="submit"
+                        className="btn btn-primary"
+                        disabled={
+                            this.state.errors.email === false &&
+                            this.state.errors.password === false
+                                ? false
+                                : true
+                        }
                     />
-                </div>
-                <input
-                    type="submit"
-                    disabled={
-                        this.state.errors.email === false &&
-                        this.state.errors.password === false
-                            ? false
-                            : true
-                    }
-                />
-                <input type="reset" />
-            </form>
+                    <input type="reset" className="btn btn-danger mx-2" onClick={this.resetFields} />
+                </form>
+            </div>
         );
     }
 }

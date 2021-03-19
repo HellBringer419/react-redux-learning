@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Arrow from "./Arrow";
 import ImageSlide from "./ImageSlide";
+import '../stylesheets/style.css';
 
 const imgUrls = [
     "https://images.unsplash.com/photo-1571768723915-99a5427b13c3?ixid=MXwxMjA3fDB8MHx0b3BpYy1mZWVkfDF8R3RyQlNjdjFiNU18fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
