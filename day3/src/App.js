@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import UserSetting from "./components/UserSetting";
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -25,6 +26,12 @@ const App = () => {
                     path="/home/:user"
                     render={(props) => (
                         <Home {...props} toggleLoginState={toggleLoginState} />
+                    )}
+                />
+                <Route
+                    path="/update/:user"
+                    render={(props) => (
+                        <UserSetting {...props} />
                     )}
                 />
             </Switch>
