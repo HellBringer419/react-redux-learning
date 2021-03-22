@@ -1,8 +1,15 @@
 // import { Dropdown } from 'bootstrap';
 
+import { useContext } from "react";
+import { UserContext } from "../utils/UserContext";
+import { Link } from "react-router-dom";
+
 const Nav = (props) => {
+    const [currentUser, setCurrentUser] = useContext(UserContext);
+
     const handleLogout = () => {
         props.toggleLoginState();
+        setCurrentUser({});
         props.history.push("/");
     };
 
@@ -58,9 +65,10 @@ const Nav = (props) => {
                                 </ul>
                             </li>
                             <li className="nav-item" onClick={handleLogout}>
-                                <button className="btn nav-link">
-                                    Logout
-                                </button>
+                                <a className="nav-link">Logout</a>
+                            </li>
+                            <li className="nav-item">
+                                <Link to={`/update/:${currentUser.name}`} className="nav-link">Settings</Link>
                             </li>
                         </ul>
                     </div>
