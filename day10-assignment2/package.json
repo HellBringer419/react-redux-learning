@@ -1,0 +1,14 @@
+{
+  "name": "day10-assignment2",
+  "version": "1.0.0",
+  "description": "Assignment: Navigation",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "HellBringer419",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
