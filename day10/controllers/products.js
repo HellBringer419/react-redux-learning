@@ -1,14 +1,18 @@
-const products = [];
+const Product = require("../models/product");
 
 exports.getAddProduct = (req, res, next) => {
-    res.send({ pageTitle: 'Add Product', path: '/admin/product', activateAddProduct: true});
+    res.send({ pageTitle: 'Add Product', path: '/admin/product', activateAddProduct: true });
 }
 
 exports.postAddProduct = (req, res, next) => {
-    products.push({ title: req.body.title });
-    res.redirect('/');
+    const product = new Product(req.body.title);
+    product.save();
+    res.status(201);
+    res.send();
 }
 
 exports.getProducts = (req, res, next) => {
-    res.send({products: products, pageTitle: 'shop', path: '/', hasProducts: products.length > 0, activeShops: true});
+    Product.fetchAll((products) => {
+        res.send({ products: products, pageTitle: 'shop', path: '/', hasProducts: products.length > 0, activeShops: true });
+    });
 }
