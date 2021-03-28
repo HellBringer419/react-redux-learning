@@ -1,32 +1,16 @@
 [
     {
-        "title": "name2"
+        "id": "7225",
+        "title": "t-shirt",
+        "imageUrl": "https://fullsourcemedia.s3.amazonaws.com/images/items/b/raw/5000_Red_1_A.jpg",
+        "description": "plain red t-shirt",
+        "price": "550"
     },
     {
-        "title": "name2"
-    },
-    {
-        "title": "name"
-    },
-    {
-        "title": "name"
-    },
-    {
-        "title": "name"
-    },
-    {
-        "title": "namdwe"
-    },
-    {
-        "title": "nae"
-    },
-    {
-        "title": "nae"
-    },
-    {
-        "title": "nae"
-    },
-    {
-        "title": "name"
+        "id": "5663",
+        "title": "Play Station 5",
+        "imageUrl": "https://solidstatenow.com/wp-content/uploads/2020/06/Screenshot-1709.png",
+        "description": "Almost out of stock PS 5",
+        "price": "38000"
     }
 ]
