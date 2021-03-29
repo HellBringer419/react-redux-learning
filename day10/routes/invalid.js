@@ -1,9 +1,9 @@
 const express = require('express');
-
-const invalidController = require('../controllers/invalid');
-
 const router = express.Router();
 
-router.get('/product', invalidController.noSuchProduct);
+// const invalidController = require('../normal_controllers/invalid');
+const getController = require('../controllers/get');
+
+router.get('/product', getController.noSuchProduct);
 
 module.exports = router;

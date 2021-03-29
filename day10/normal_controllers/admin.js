@@ -1,4 +1,3 @@
-const e = require("express");
 const Product = require("../models/product");
 
 exports.getAddProduct = (req, res, next) => {
@@ -24,7 +23,7 @@ exports.getEditProduct = (req, res, next) => {
     });
 }
 
-exports.postEditProduct = (req, res, next) => {
+exports.putProduct = (req, res, next) => {
     const product = new Product(req.body.id, req.body.title, req.body.imageUrl, req.body.description, req.body.price);
     product.save();
     res.send({ message: `Updated Product with id: ${product.id}` });
