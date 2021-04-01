@@ -54,6 +54,11 @@ exports.postUser = (req, res, next) => {
 };
 
 exports.putUser = (req, res, next) => {
+    if (req.token.id !== req.params.id) {
+        const error = new Error("Un-Authorized to delete this");
+        error.statusCode = 403;
+        throw error;
+    }
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const error = new Error("Invalid User details");
@@ -91,13 +96,23 @@ exports.putUser = (req, res, next) => {
 };
 
 exports.deleteUser = (req, res, next) => {
+    if (req.token.id !== req.params.id) {
+        const error = new Error("Un-Authorized to delete this");
+        error.statusCode = 403;
+        throw error;
+    }
     User.delete(req.params.id, (id) => {
-        if (!id) res.status(500).json({ message: "error" });
-        else {
-            if (id === -1) res.status(404).json({ message: "No Such User" });
-            else if (id === 0)
-                res.status(500).json({ message: "error in write" });
-            else
+        if (!id) {
+            const error = new Error("error");
+            error.statusCode = 500;
+            next(error);
+        } else {
+            if (id === -1) {
+                const error = new Error("No Such User");
+                error.statusCode = 404;
+                next(error);
+                return;
+            } else
                 res.status(200).json({ message: `Deleted user with id ${id}` });
         }
     });
