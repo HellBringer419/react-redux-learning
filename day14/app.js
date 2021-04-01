@@ -88,7 +88,7 @@ app.use((req, res, next) => {
 app.use("/users", userRoutes);
 app.use("/products", productRoutes);
 app.use("/upload", uploadRoutes);
-// app.use(authRoutes);
+app.use("/auth", authRoutes);
 
 app.use((error, req, res, next) => {
     console.log(error);

@@ -3,6 +3,8 @@ const { validationResult } = require("express-validator");
 const Product = require("../models/product");
 
 exports.getAllProducts = (req, res, next) => {
+    // TODO: add pagination; requires a db
+
     Product.findAll((products) => {
         res.status(200).json(products);
     });
@@ -18,7 +20,6 @@ exports.getProduct = (req, res, next) => {
             res.status(200).json(product);
         }
     });
-    // Product.findById(req.params.id).then((product) => console.log(product));
 };
 
 exports.postProduct = (req, res, next) => {

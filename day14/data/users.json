@@ -1,1 +1,12 @@
-[]
+[
+    {
+        "_id": "7278",
+        "userName": "Hiko",
+        "profilePic": "images/65015de1-1338-42cb-b64b-6706b6670dbavector2_landscape.jpg",
+        "email": "hiko@mail.com",
+        "password": "$2a$12$r2lBivjJO7duj6/5sVfFv.8c30g6tjOVewgcF5BlcUVHME/tFF3oO",
+        "firstName": "Hi",
+        "lastName": "ko",
+        "role": "USER"
+    }
+]

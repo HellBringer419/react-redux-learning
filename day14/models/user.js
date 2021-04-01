@@ -33,7 +33,6 @@ module.exports = class User {
             this.dob = dob;
             this.age = 0; // TODO: add age calculation
         }
-        (this.resetToken = null), (this.resetTokenExpiration = null);
     }
 
     save(idCallback) {
@@ -76,10 +75,7 @@ module.exports = class User {
     static findByEmail(email, userCallBack) {
         getAllUsersFromFile((users) => {
             const user = users.find((user) => user.email === email);
-            if (!user) {
-                userCallBack({});
-                console.error("[ERROR] in findByEmail");
-            } else userCallBack(user);
+            userCallBack(user);
         });
     }
 
