@@ -55,7 +55,7 @@ exports.postUser = (req, res, next) => {
 
 exports.putUser = (req, res, next) => {
     if (req.token.id !== req.params.id) {
-        const error = new Error("Un-Authorized to delete this");
+        const error = new Error("Un-Authorized to update this");
         error.statusCode = 403;
         throw error;
     }
@@ -67,7 +67,7 @@ exports.putUser = (req, res, next) => {
     }
 
     const user = new User(
-        req.body.id,
+        req.params.id,
         req.body.userName,
         req.body.profilePic,
         req.body.email,

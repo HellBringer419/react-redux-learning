@@ -8,5 +8,35 @@
         "firstName": "Ni",
         "lastName": "tro",
         "role": "USER"
+    },
+    {
+        "_id": "2655",
+        "userName": "HbN",
+        "profilePic": "image/ed4b22fc-0bf3-4972-831e-bc90692749aeflask.png",
+        "email": "my@email.com",
+        "password": "verySIMPLE",
+        "firstName": "H",
+        "lastName": "N",
+        "role": "USER"
+    },
+    {
+        "_id": "6854",
+        "userName": "",
+        "profilePic": "images/8aff59f7-7967-4c9e-afdd-4e084371bf09Terrible-Facebook-Sans-Undertale-Wallpaper.jpg",
+        "email": "my2@email.com",
+        "password": "$2a$12$Dp0t5kuysxSsSyj8umGwbuHBK0qvNS/7QP1v284V.WAM9mpzkDs1u",
+        "firstName": "H",
+        "lastName": "N",
+        "role": "USER"
+    },
+    {
+        "_id": "6801",
+        "userName": "WOw",
+        "profilePic": "",
+        "email": "wow@wow.wow",
+        "password": "$2a$12$1Ygm1Mgj7b1Ej4LR02Mf1urs3ggzviznt4RRH3l10IFjsWalc3n86",
+        "firstName": "Wow",
+        "lastName": "Me",
+        "role": "USER"
     }
 ]
