@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
 
 const User = require("../models/user");
 
@@ -28,29 +29,40 @@ exports.postUser = (req, res, next) => {
         throw error;
     }
 
-    const user = new User(
-        null,
-        req.body.userName,
-        req.body.profilePic,
-        req.body.email,
-        req.body.password,
-        req.body.firstName,
-        req.body.lastName,
-        "USER"
-    );
-    if (!user) {
-        const error = new Error("Invalid User details");
-        error.statusCode = 422;
-        throw error;
-    } else {
-        user.save((id) => {
-            if (id === 0) {
-                const error = new Error("Error while saving");
+    const password = req.body.password;
+    bcrypt
+        .hash(password, 12)
+        .then((hashedPassword) => {
+            const user = new User(
+                null,
+                req.body.userName,
+                req.body.profilePic,
+                req.body.email,
+                hashedPassword,
+                req.body.firstName,
+                req.body.lastName,
+                "USER"
+            );
+            if (!user) {
+                const error = new Error("Invalid User details");
+                error.statusCode = 422;
+                throw error;
+            } else {
+                user.save((id) => {
+                    if (id === 0) {
+                        const error = new Error("Error while saving");
+                        error.statusCode = 500;
+                        next(error);
+                    } else res.status(201).json({ message: "succesful", id });
+                });
+            }
+        })
+        .catch((error) => {
+            if (!error.statusCode) {
                 error.statusCode = 500;
-                next(error);
-            } else res.status(201).json({ message: "succesful", id });
+            }
+            next(error);
         });
-    }
 };
 
 exports.putUser = (req, res, next) => {
@@ -66,33 +78,44 @@ exports.putUser = (req, res, next) => {
         throw error;
     }
 
-    const user = new User(
-        req.params.id,
-        req.body.userName,
-        req.body.profilePic,
-        req.body.email,
-        req.body.password,
-        req.body.firstName,
-        req.body.lastName,
-        "USER"
-    );
-    if (!user) {
-        const error = new Error("Invalid User details");
-        error.statusCode = 422;
-        throw error;
-    } else {
-        user.save((id) => {
-            if (id === 0) {
-                const error = new Error("Error while saving");
-                error.statusCode = 500;
-                next(error);
-            } else
-                res.status(201).json({
-                    message: `Updated Product with id: ${id}`,
-                    id,
+    const password = req.body.password;
+    bcrypt
+        .hash(password, 12)
+        .then((hashedPassword) => {
+            const user = new User(
+                req.params.id,
+                req.body.userName,
+                req.body.profilePic,
+                req.body.email,
+                hashedPassword,
+                req.body.firstName,
+                req.body.lastName,
+                "USER"
+            );
+            if (!user) {
+                const error = new Error("Invalid User details");
+                error.statusCode = 422;
+                throw error;
+            } else {
+                user.save((id) => {
+                    if (id === 0) {
+                        const error = new Error("Error while saving");
+                        error.statusCode = 500;
+                        next(error);
+                    } else
+                        res.status(201).json({
+                            message: `Updated Product with id: ${id}`,
+                            id,
+                        });
                 });
+            }
+        })
+        .catch((error) => {
+            if (!error.statusCode) {
+                error.statusCode = 500;
+            }
+            next(error);
         });
-    }
 };
 
 exports.deleteUser = (req, res, next) => {

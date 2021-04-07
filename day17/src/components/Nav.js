@@ -1,19 +1,37 @@
-// import { Dropdown } from 'bootstrap';
-
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../utils/UserContext";
-import { Link, withRouter } from "react-router-dom";
+import { Link as RouterLink, withRouter } from "react-router-dom";
 import axios from "axios";
 
+import {
+    Box,
+    Flex,
+    Avatar,
+    HStack,
+    Link,
+    IconButton,
+    Button,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuDivider,
+    useDisclosure,
+    useColorModeValue,
+    Stack,
+} from "@chakra-ui/react";
+import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
+
 const Nav = ({ history }) => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
     const [currentUser, setCurrentUser] = useContext(UserContext);
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        if(currentUser === null) {
+        if (currentUser === null) {
             setUser(null);
-        }
-        else {
+        } else {
             axios
                 .get(
                     `${process.env.REACT_APP_BACKEND_API}/users/${currentUser.id}`
@@ -23,7 +41,7 @@ const Nav = ({ history }) => {
                 })
                 .catch((error) => console.error(error));
         }
-    }, [currentUser])
+    }, [currentUser]);
 
     const handleSettings = () => {
         history.push(`/update/${currentUser.id}`);
@@ -35,133 +53,171 @@ const Nav = ({ history }) => {
     };
 
     return (
-        <header>
-            <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-                <div className="container-fluid">
-                    <button
-                        className="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                    >
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
+        <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+            <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+                <IconButton
+                    size={"md"}
+                    icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+                    aria-label={"Open Menu"}
+                    display={{ md: !isOpen ? "none" : "inherit" }}
+                    onClick={isOpen ? onClose : onOpen}
+                />
+                <HStack spacing={8} alignItems={"center"}>
+                    {user ? (
+                        <Menu>
+                            <MenuButton
+                                as={Button}
+                                rounded={"full"}
+                                variant={"link"}
+                                cursor={"pointer"}
+                            >
+                                <HStack spacing={2} alignItems={"center"}>
+                                    <Avatar
+                                        size={"sm"}
+                                        src={
+                                            process.env.REACT_APP_BACKEND_API +
+                                            "/" +
+                                            (user.profilePic
+                                                ? user.profilePic
+                                                : "images/default.jpg")
+                                        }
+                                    />
+                                    <p> {user.userName} </p>
+                                </HStack>
+                            </MenuButton>
+                            <MenuList>
+                                <MenuItem onClick={handleSettings}>
+                                    Settings
+                                </MenuItem>
+                                <MenuDivider />
+                                <MenuItem onClick={handleLogout}>
+                                    Log Out
+                                </MenuItem>
+                            </MenuList>
+                        </Menu>
+                    ) : (
+                        <Link
+                            px={2}
+                            py={1}
+                            rounded={"md"}
+                            _hover={{
+                                textDecoration: "none",
+                                // bg: useColorModeValue("gray.200", "gray.700"),
+                                bg: "gray.200",
+                            }}
+                            as="div"
+                        >
+                            <RouterLink to="/login"> Login </RouterLink>
+                        </Link>
+                    )}
 
-                    <div className="collapse navbar-collapse">
-                        <ul className="navbar-nav me-auto mb-2 mb-md-0">
-                            {user ? (
-                                <li className="nav-item dropdown">
-                                    <select
-                                        className="dropdown-menu"
-                                        aria-labelledby="navbarDropdown"
-                                    >
-                                        <option className="dropdown-item">
-                                            {user.userName}
-                                        </option>
-                                        <option
-                                            className="dropdown-item"
-                                            onClick={handleSettings}
-                                        >
-                                            Settings
-                                        </option>
-                                        <option
-                                            className="dropdown-item"
-                                            onClick={handleLogout}
-                                        >
-                                            Log Out
-                                        </option>
-                                    </select>
-                                </li>
-                            ) : (
-                                <li>
-                                    <Link to="/login"> Login </Link>
-                                </li>
-                            )}
-                            <li>
-                                <Link to="/products">Products</Link>
-                            </li>
-                            <li>
-                                <Link to="/users">Users</Link>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <Link
-                        className="navbar-brand"
-                        to={currentUser ? `/home/${currentUser.id}` : "/"}
+                    <HStack
+                        as={"nav"}
+                        spacing={4}
+                        display={{ base: "none", md: "flex" }}
                     >
-                        <img
-                            src="https://s2.svgbox.net/hero-solid.svg?ic=camera&color=ecf0f1"
-                            width="32"
-                            height="32"
-                            alt="Logo"
-                            className="mx-2"
-                        />
-                        Brand
-                    </Link>
-                </div>
-            </nav>
-        </header>
+                        <Link
+                            px={2}
+                            py={1}
+                            rounded={"md"}
+                            _hover={{
+                                textDecoration: "none",
+                                // bg: useColorModeValue("gray.200", "gray.700"),
+                                bg: "gray.200",
+                            }}
+                            as="div"
+                        >
+                            <RouterLink
+                                to={
+                                    currentUser
+                                        ? `/home/${currentUser.id}`
+                                        : "/"
+                                }
+                            >
+                                Home{" "}
+                            </RouterLink>
+                        </Link>
+                        <Link
+                            px={2}
+                            py={1}
+                            rounded={"md"}
+                            _hover={{
+                                textDecoration: "none",
+                                // bg: useColorModeValue("gray.200", "gray.700"),
+                                bg: "gray.200",
+                            }}
+                            as="div"
+                        >
+                            <RouterLink to="/products"> Products </RouterLink>
+                        </Link>
+                        <Link
+                            px={2}
+                            py={1}
+                            rounded={"md"}
+                            _hover={{
+                                textDecoration: "none",
+                                // bg: useColorModeValue("gray.200", "gray.700"),
+                                bg: "gray.200",
+                            }}
+                            as="div"
+                        >
+                            <RouterLink to="/users"> Users </RouterLink>
+                        </Link>
+                    </HStack>
+                </HStack>
+                <Flex alignItems={"center"}>
+                    <Box>
+                        <RouterLink
+                            to={currentUser ? `/home/${currentUser.id}` : "/"}
+                        >
+                            <HStack spacing={2} alignItems={"center"}>
+                                <img
+                                    src="https://s2.svgbox.net/hero-solid.svg?ic=camera&color=CAD8E7"
+                                    width="32"
+                                    height="32"
+                                    alt="Logo"
+                                />
+                                <p>Brand</p>
+                            </HStack>
+                        </RouterLink>
+                    </Box>
+                </Flex>
+            </Flex>
+
+            {isOpen ? (
+                <Box pb={4}>
+                    <Stack as={"nav"} spacing={4}>
+                        <Link
+                            px={2}
+                            py={1}
+                            rounded={"md"}
+                            _hover={{
+                                textDecoration: "none",
+                                // bg: useColorModeValue("gray.200", "gray.700"),
+                                bg: "gray.200",
+                            }}
+                            as="div"
+                        >
+                            <RouterLink to="/products"> Products </RouterLink>
+                        </Link>
+                        <Link
+                            px={2}
+                            py={1}
+                            rounded={"md"}
+                            _hover={{
+                                textDecoration: "none",
+                                // bg: useColorModeValue("gray.200", "gray.700"),
+                                bg: "gray.200",
+                            }}
+                            as="div"
+                        >
+                            <RouterLink to="/users"> Users </RouterLink>
+                        </Link>
+                    </Stack>
+                </Box>
+            ) : null}
+        </Box>
     );
 };
 
 export default withRouter(Nav);
-
-{
-    /* <select className="dropdown-menu" aria-labelledby="navbarDropdown">
-    <option className="dropdown-item">View Profile</option>
-    <option className="dropdown-divider"></option>
-    <option className="dropdown-item" onClick={handleLogout}>
-        Log Out
-    </option>
-</select>; */
-}
-
-{
-    /* <span
-                                    className="naView Profilev-link dropdown-toggle"
-                                    href="#"
-                                    id="navbarDropdown"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    <img
-                                        src="https://s2.svgbox.net/hero-solid.svg?ic=user&color=16a085"
-                                        width="32"
-                                        height="32"
-                                        alt="Profile Picure"
-                                    />
-                                    <b className="mx-2">John Doe</b>
-                                </span>
-                                <ul
-                                    className="dropdown-menu"
-                                    aria-labelledby="navbarDropdown"
-                                >
-                                    <li className="dropdown-item">
-                                        View Profile
-                                    </li>
-                                    <li className="dropdown-divider"></li>
-                                    <li
-                                        className="dropdown-item"
-                                        onClick={handleLogout}
-                                    >
-                                        Log Out
-                                    </li>
-                                </ul> */
-}
-
-//     <li className="nav-item" onClick={handleLogout}>
-//     <a className="nav-link">Logout</a>
-// </li>
-// <li className="nav-item">
-//     <Link
-//         to={`/update/:${currentUser.name}`}
-//         className="nav-link"
-//     >
-//         Settings
-//     </Link>
-// </li>

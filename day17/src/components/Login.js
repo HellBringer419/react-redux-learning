@@ -1,3 +1,8 @@
+import { Alert, AlertIcon } from "@chakra-ui/alert";
+import { Button } from "@chakra-ui/button";
+import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { Input } from "@chakra-ui/input";
+import { Box, Container, Heading, HStack, Stack } from "@chakra-ui/layout";
 import axios from "axios";
 import React, { Component } from "react";
 import { UserContext } from "../utils/UserContext";
@@ -14,15 +19,28 @@ class Login extends Component {
             validPassword: false,
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleClearErrors = this.handleClearErrors.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.isValidEmail = this.isValidEmail.bind(this);
         this.isValidPassword = this.isValidPassword.bind(this);
         this.resetFields = this.resetFields.bind(this);
-        // context in class based
     }
+
+    // componentDidMount() {
+    //     let [currentUser] = this.context;
+    //     if (currentUser !== null) this.props.history.push(`/home/${currentUser.id}`);
+    //     // console.log(currentUser);
+    // }
 
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
+    }
+
+    handleClearErrors(event) {
+        let newErrors = this.state.errors;
+        const name = event.target.name;
+        newErrors[name] = false;
+        this.setState({ errors: newErrors });
     }
 
     isValidEmail() {
@@ -108,88 +126,102 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="container mt-5">
-                <form onSubmit={this.handleSubmit}>
-                    <h2 className="my-3"> Login here </h2>
-                    {this.state.isValidated ? (
-                        <div className="alert alert-success">
-                            Logged In succesfully
-                        </div>
-                    ) : (
-                        ""
-                    )}
-                    {this.state.errors.email ? (
-                        <div className="alert alert-danger">
-                            Please enter a valid email
-                        </div>
-                    ) : (
-                        " "
-                    )}
-                    {this.state.errors.password ? (
-                        <div className="alert alert-danger">
-                            Please enter a valid password
-                        </div>
-                    ) : (
-                        " "
-                    )}
-                    {this.state.errors.credentials ? (
-                        <div className="alert alert-danger">
-                            Invalid Username/Password
-                        </div>
-                    ) : (
-                        " "
-                    )}
-                    <div className="mb-3">
-                        <label htmlFor="email" className="form-label">
-                            Email:
-                        </label>
-                        <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            className="form-control"
-                            value={this.state.email}
-                            onChange={(event) => {
-                                this.handleChange(event);
-                                this.isValidEmail();
-                            }}
-                            onBlur={this.isValidEmail}
-                        />
-                    </div>
+            <Container>
+                <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+                    <Stack align={"center"}>
+                        <Heading fontSize={"4xl"}>
+                            Sign in to your account
+                        </Heading>
 
-                    <div className="mb-3">
-                        <label htmlFor="password" className="form-label">
-                            Password:
-                        </label>
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            className="form-control"
-                            value={this.state.password}
-                            onChange={(event) => {
-                                this.handleChange(event);
-                                this.isValidPassword();
-                            }}
-                            onBlur={this.isValidPassword}
-                        />
-                    </div>
-                    <input
-                        type="submit"
-                        className="btn btn-primary"
-                        disabled={
-                            this.state.validEmail && this.state.validPassword
-                                ? false
-                                : true
-                        }
-                    />
-                    <input
-                        type="reset"
-                        className="btn btn-danger mx-2"
-                        onClick={this.resetFields}
-                    />
-                </form>
-            </div>
+                        {this.state.isValidated ? (
+                            <Alert status="success">
+                                <AlertIcon />
+                                Logged In succesfully
+                            </Alert>
+                        ) : (
+                            ""
+                        )}
+                        {this.state.errors.email ? (
+                            <Alert status="error">
+                                <AlertIcon />
+                                Please enter a valid email
+                            </Alert>
+                        ) : (
+                            " "
+                        )}
+                        {this.state.errors.password ? (
+                            <Alert status="error">
+                                <AlertIcon />
+                                Please enter a valid password
+                            </Alert>
+                        ) : (
+                            " "
+                        )}
+                        {this.state.errors.credentials ? (
+                            <Alert status="error">
+                                <AlertIcon />
+                                Invalid Username/Password
+                            </Alert>
+                        ) : (
+                            " "
+                        )}
+                    </Stack>
+                    <Box
+                        rounded={"lg"}
+                        // bg={useColorModeValue("white", "gray.700")}
+                        bg="white"
+                        boxShadow={"lg"}
+                        p={8}
+                    >
+                        <Stack spacing={4}>
+                            <FormControl id="email">
+                                <FormLabel>Email address</FormLabel>
+                                <Input
+                                    type="email"
+                                    name="email"
+                                    value={this.state.email}
+                                    onChange={this.handleChange}
+                                    onFocus={this.handleClearErrors}
+                                    onBlur={this.isValidEmail}
+                                />
+                            </FormControl>
+                            <FormControl id="password">
+                                <FormLabel>Password</FormLabel>
+                                <Input
+                                    type="password"
+                                    name="password"
+                                    value={this.state.password}
+                                    onChange={this.handleChange}
+                                    onFocus={this.handleClearErrors}
+                                    onBlur={this.isValidPassword}
+                                />
+                            </FormControl>
+                            <HStack spacing={6}>
+                                <Button
+                                    bg={"blue.400"}
+                                    color={"white"}
+                                    _hover={{
+                                        bg: "blue.500",
+                                    }}
+                                    onClick={this.handleSubmit}
+                                >
+                                    Sign in
+                                </Button>
+                                <Button
+                                    bg={"red.400"}
+                                    color={"white"}
+                                    _hover={{
+                                        bg: "red.500",
+                                    }}
+                                    onClick={this.resetFields}
+                                >
+                                    Reset
+                                </Button>
+                            </HStack>
+                        </Stack>
+                    </Box>
+                </Stack>
+            </Container>
         );
     }
 }

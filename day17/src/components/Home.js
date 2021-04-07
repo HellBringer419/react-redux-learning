@@ -1,9 +1,9 @@
+import { Button } from "@chakra-ui/button";
+import { Container, HStack, Stack, Text } from "@chakra-ui/layout";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { UserContext } from "../utils/UserContext";
-
-import Footer from "./Footer";
-import Nav from "./Nav";
 
 const Home = ({ history }) => {
     const [currentUser] = useContext(UserContext);
@@ -19,22 +19,39 @@ const Home = ({ history }) => {
                 .then((res) => setUser(res.data))
                 .catch((error) => console.error(error));
         }
-    }, [currentUser]);
+    }, [currentUser, history]);
 
     return (
-        <div className="d-flex flex-column min-vh-100">
-            <main className="flex-fill mt-4">
-                <div className="container">
-                    <h4 className="mt-5 text-bold"> Your Image Carousel </h4>
-                    {user ? (
-                        <p className="lead"> Welcome {user.userName} </p>
-                    ) : (
-                        ""
-                    )}
-                </div>
-            </main>
-            <Footer />
-        </div>
+        <Container py={4}>
+            <Stack spacing="8">
+                <Text fontSize="5xl" as="span">
+                    Welcome To{" "}
+                    <Text fontSize="6xl" display="inline">
+                        Brand
+                    </Text>
+                </Text>
+                <Text fontSize="md" as="span">
+                    {user ? `Welcome ${user.userName}, we ` : "We "}
+                    can show you our awesome{" "}
+                    <Text as="b" display="inline">
+                        products{" "}
+                    </Text>
+                    OR Get to know our huge list of{" "}
+                    <Text as="b" display="inline">
+                        users
+                    </Text>
+                    .
+                </Text>
+                <HStack justifyContent={"space-around"}>
+                    <Button bg={"gray.200"}>
+                        <RouterLink to="/products"> Products </RouterLink>
+                    </Button>
+                    <Button>
+                        <RouterLink to="/users"> Users </RouterLink>
+                    </Button>
+                </HStack>
+            </Stack>
+        </Container>
     );
 };
 
