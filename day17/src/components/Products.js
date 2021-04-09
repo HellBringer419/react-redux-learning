@@ -2,25 +2,39 @@ import { Alert, AlertIcon } from "@chakra-ui/alert";
 import { useColorModeValue } from "@chakra-ui/color-mode";
 import { AddIcon } from "@chakra-ui/icons";
 import { Box, Container, SimpleGrid, Text } from "@chakra-ui/layout";
+import { Skeleton } from "@chakra-ui/skeleton";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
-
-// TODO: add pagination
-// candiated:
-// 1. [Chakra paginator] (https://github.com/niconiahi/chakra-paginator)
-// 2. [React paginator] (https://github.com/AdeleD/react-paginate)
 
 const Products = () => {
 	const [products, setProducts] = useState([]);
+	const [loading, setLoading] = useState(false);
 	const [deleteMessage, setDeleteMessage] = useState("");
+	const [currentPage, setCurrentPage] = useState(1);
+
+	// constants for pagination
+	const PER_PAGE = 1;
+	const indexOfLastProductInView = currentPage * PER_PAGE;
+	const indexOfFirstProductInView = indexOfLastProductInView - PER_PAGE;
 
 	useEffect(() => {
-		axios
-			.get(`${process.env.REACT_APP_BACKEND_API}/products/`)
-			.then((res) => setProducts(res.data))
-			.catch((error) => console.error(error));
+		const fetchProducts = async () => {
+			try {
+				setLoading(true);
+				const res = await axios.get(
+					`${process.env.REACT_APP_BACKEND_API}/products/`
+				);
+				setProducts(res.data);
+				setLoading(false);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		fetchProducts();
 	}, []);
 
 	const handleDelete = (id) => {
@@ -29,18 +43,23 @@ const Products = () => {
 			.then((res) => {
 				if (res.status === 200) {
 					setProducts(
-						products.filter(
-							(product) => product._id !== id
-						)
+						products.filter((product) => product._id !== id)
 					);
+					setCurrentPage(1);
+
 					setDeleteMessage(
 						`Deleted product ${
 							products.find((product) => product._id == id).title
 						} with id ${id}`
 					);
+					setTimeout(() => setDeleteMessage(""), 3000);
 				}
 			})
 			.catch((error) => console.error(error));
+	};
+
+	const handlePaginate = (nextPage) => {
+		setCurrentPage(nextPage);
 	};
 
 	return (
@@ -63,9 +82,29 @@ const Products = () => {
 			) : (
 				""
 			)}
-			<SimpleGrid spacing="40px" minChildWidth="220px" marginTop={"2"}>
-				{products
-					? products.map((product) => (
+
+			<SimpleGrid spacing="40px" minChildWidth="220px" margin={"5"}>
+				{loading === true ? (
+					<Skeleton>
+						<Box
+							maxW={"320px"}
+							w={"full"}
+							bg={"white"}
+							boxShadow={"2xl"}
+							rounded={"lg"}
+							p={6}
+							textAlign={"center"}
+							d="grid"
+							placeItems="center"
+						></Box>
+					</Skeleton>
+				) : (
+					products
+						.slice(
+							indexOfFirstProductInView,
+							indexOfLastProductInView
+						)
+						.map((product) => (
 							<ProductCard
 								key={product._id}
 								id={product._id}
@@ -75,8 +114,8 @@ const Products = () => {
 								price={product.price}
 								handleDelete={handleDelete}
 							/>
-					  ))
-					: ""}
+						))
+				)}
 
 				<Box
 					maxW={"320px"}
@@ -94,6 +133,12 @@ const Products = () => {
 					</RouterLink>
 				</Box>
 			</SimpleGrid>
+
+			<Pagination
+				itemsPerPage={PER_PAGE}
+				totalItems={products.length}
+				handlePaginate={handlePaginate}
+			/>
 		</Container>
 	);
 };

@@ -1,18 +1,16 @@
-import { AlertIcon } from "@chakra-ui/alert";
-import { Alert } from "@chakra-ui/alert";
+import { Alert, AlertIcon } from "@chakra-ui/alert";
 import { Button } from "@chakra-ui/button";
-import { FormLabel } from "@chakra-ui/form-control";
-import { FormControl } from "@chakra-ui/form-control";
+import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Image } from "@chakra-ui/image";
-import { InputGroup } from "@chakra-ui/input";
-import { InputRightAddon } from "@chakra-ui/input";
-import { Input } from "@chakra-ui/input";
-import { Text } from "@chakra-ui/layout";
-import { HStack } from "@chakra-ui/layout";
-import { Stack } from "@chakra-ui/layout";
-import { Container } from "@chakra-ui/layout";
-import { Heading } from "@chakra-ui/layout";
-import { Box } from "@chakra-ui/layout";
+import { Input, InputGroup, InputRightAddon } from "@chakra-ui/input";
+import {
+	Box,
+	Container,
+	Heading,
+	HStack,
+	Stack,
+	Text,
+} from "@chakra-ui/layout";
 import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
@@ -41,18 +39,16 @@ const UserSetting = ({ history }) => {
 	const [fileName, setFileName] = useState("");
 	const fileInput = useRef();
 
-	const id = useParams().user;
+	const id = Number(useParams().user);
 
 	useEffect(() => {
 		if (currentUser === null) {
-			if (id != 0) {
+			if (id !== 0) {
 				history.push("/");
 			} else console.log("CREATE user mode");
 		} else {
 			axios
-				.get(
-					`${process.env.REACT_APP_BACKEND_API}/users/${currentUser.id}`
-				)
+				.get(`${process.env.REACT_APP_BACKEND_API}/users/${id}`)
 				.then((res) => {
 					setEmail(res.data.email);
 					// Password is encypted, so not included
@@ -68,23 +64,24 @@ const UserSetting = ({ history }) => {
 	const handleDelete = (event) => {
 		event.preventDefault();
 		axios
-			.delete(
-				`${process.env.REACT_APP_BACKEND_API}/users/${currentUser.id}`,
-				{
-					headers: {
-						Authorization: `Basic ${currentUser.token}`,
-					},
-				}
-			)
+			.delete(`${process.env.REACT_APP_BACKEND_API}/users/${id}`, {
+				headers: {
+					Authorization: `Basic ${currentUser.token}`,
+				},
+			})
 			.then((res) => {
 				if (res.status === 200) {
 					history.push("/");
 					setCurrentUser(null);
 				} else {
-					setAuthorized(false);
+					console.log(res.status);
 				}
 			})
-			.catch((error) => console.error(error));
+			.catch((error) => {
+				console.error(error);
+
+				setAuthorized(false);
+			});
 	};
 
 	const handleUpload = (event) => {
@@ -160,7 +157,7 @@ const UserSetting = ({ history }) => {
 				lastName: lastName,
 			};
 
-			if (id == 0) {
+			if (id === 0) {
 				axios
 					.post(
 						`${process.env.REACT_APP_BACKEND_API}/auth/signup`,
@@ -192,11 +189,15 @@ const UserSetting = ({ history }) => {
 							setCurrentUser({ ...currentUser });
 							history.push(`/home/${currentUser.id}`);
 						} else {
-							setUpdated(false);
-							setAuthorized(false);
+							console.log(res.status);
 						}
 					})
-					.catch((error) => console.error(error));
+					.catch((error) => {
+						console.error(error);
+
+						setUpdated(false);
+						setAuthorized(false);
+					});
 			}
 		}
 	};
@@ -249,7 +250,7 @@ const UserSetting = ({ history }) => {
 							<Input
 								type="text"
 								value={userName}
-								disabled={id == 0 ? false : true}
+								disabled={id === 0 ? false : true}
 								onChange={(event) =>
 									setUserName(event.target.value)
 								}
@@ -374,7 +375,7 @@ const UserSetting = ({ history }) => {
 								}}
 								onClick={handleSubmit}
 							>
-								{id == 0 ? "Create user" : "Update profile"}
+								{id === 0 ? "Create user" : "Update profile"}
 							</Button>
 							<Button
 								bg={"red.400"}
@@ -383,7 +384,7 @@ const UserSetting = ({ history }) => {
 									bg: "red.500",
 								}}
 								onClick={handleDelete}
-								disabled={id == 0 ? true : false}
+								disabled={id === 0 ? true : false}
 							>
 								DELETE account
 							</Button>

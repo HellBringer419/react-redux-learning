@@ -1,4 +1,4 @@
-import { ChakraProvider, Flex } from "@chakra-ui/react";
+import { ChakraProvider, Flex, Skeleton, Stack } from "@chakra-ui/react";
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AddUpdateProduct from "./components/AddUpdateProduct";
@@ -7,12 +7,13 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Nav from "./components/Nav";
 // import Products from "./components/Products";
+// import Users from "./components/Users";
 import UnLoggedInHome from "./components/UnLoggedInHome";
-import Users from "./components/Users";
 import UserSetting from "./components/UserSetting";
 import { UserProvider } from "./utils/UserContext";
 
 const Products = lazy(() => import("./components/Products"));
+const Users = lazy(() => import("./components/Users"));
 
 const App = () => {
 	return (
@@ -51,13 +52,41 @@ const App = () => {
 										<AddUpdateProduct {...props} />
 									)}
 								/>
-								<Route path="/products" render={() => <Suspense fallback={<div> loading ... </div>} > <Products /> </Suspense>} />
+								<Route
+									path="/products"
+									render={() => (
+										<Suspense
+											fallback={
+												<Stack>
+													<Skeleton height="20px" />
+													<Skeleton height="20px" />
+													<Skeleton height="20px" />
+												</Stack>
+											}
+										>
+											<Products />
+										</Suspense>
+									)}
+								/>
 								{/* <Route path="/products">
 									<Products />
 								</Route> */}
-								<Route path="/users">
-									<Users />
-								</Route>
+								<Route
+									path="/users"
+									render={() => (
+										<Suspense
+											fallback={
+												<Stack>
+													<Skeleton height="20px" />
+													<Skeleton height="20px" />
+													<Skeleton height="20px" />
+												</Stack>
+											}
+										>
+											<Users />
+										</Suspense>
+									)}
+								/>
 							</Switch>
 						</Flex>
 						<Footer />

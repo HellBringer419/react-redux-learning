@@ -5,5 +5,12 @@
         "imageUrl": "images/65015de1-1338-42cb-b64b-6706b6670dbavector2_landscape.jpg",
         "description": "SMG- high rate of fire",
         "price": 1300
+    },
+    {
+        "_id": "8057",
+        "title": "Penguins",
+        "imageUrl": "images/71601501-8b85-4c9a-9452-dd177bf58efcpenguins.jpg",
+        "description": "Precious, smart and adorable penguins",
+        "price": 87000
     }
 ]

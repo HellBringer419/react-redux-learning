@@ -14,9 +14,9 @@
         "userName": "WOw",
         "profilePic": "",
         "email": "wow@wow.wow",
-        "password": "$2a$12$ektBqOEvBJ8oH5OWnFHzqeb6aOUckH3qWWbOW0SjgAVDI6EjdNkWi",
+        "password": "$2a$12$X9U4a6svo2fkXulVZz8z9.s4dfquujHvSKnnPRulTkgHh.zuE6/aG",
         "firstName": "Wow",
-        "lastName": "Me",
+        "lastName": "Mee",
         "role": "USER"
     },
     {
@@ -30,13 +30,13 @@
         "role": "USER"
     },
     {
-        "_id": "5750",
-        "userName": "Penguin",
-        "profilePic": "images/1de66fb5-0df3-453d-b4e2-f7dd00de38depenguins.jpg",
+        "_id": "8188",
+        "userName": "Penguins",
+        "profilePic": "",
         "email": "peng@uin.com",
-        "password": "$2a$12$PEc3vPUDTHT0Ch4i2Nds4.YUl5nGfxin7FsQQ/mzqw1eQ2OXZm50S",
-        "firstName": "Tux",
-        "lastName": "Penguin",
+        "password": "$2a$12$JdbRNuAldHuXIVtjRrXMguq/snqKp1lUJLv4QM8RJRdv.I3Rh/Fae",
+        "firstName": "Penguins",
+        "lastName": "Madagascar",
         "role": "USER"
     }
 ]

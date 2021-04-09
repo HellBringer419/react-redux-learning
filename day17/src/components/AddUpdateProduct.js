@@ -39,10 +39,10 @@ const AddUpdateProduct = ({ history }) => {
 	const [fileName, setFileName] = useState("");
 	const fileInput = useRef();
 
-	const id = useParams().id;
+	const id = Number(useParams().id);
 
 	useEffect(() => {
-		if (id != 0) {
+		if (id !== 0) {
 			// GET product
 			axios
 				.get(`${process.env.REACT_APP_BACKEND_API}/products/${id}`)
@@ -110,7 +110,7 @@ const AddUpdateProduct = ({ history }) => {
 	};
 
 	const resetFields = () => {
-		if (id == 0) setTitle("");
+		if (id === 0) setTitle("");
 		setImageUrl("");
 		setDescription("");
 		setPrice(0);
@@ -130,14 +130,14 @@ const AddUpdateProduct = ({ history }) => {
 
 		if (validateTitle() && validatePrice()) {
 			const payload = {
-				id: id == 0 ? null : id,
+				id: id === 0 ? null : id,
 				title: title,
 				imageUrl: imageUrl,
 				description: description,
 				price: Number(price),
 			};
 
-			if (id == 0) {
+			if (id === 0) {
 				axios
 					.post(
 						`${process.env.REACT_APP_BACKEND_API}/products`,
@@ -206,7 +206,7 @@ const AddUpdateProduct = ({ history }) => {
 							<Input
 								type="text"
 								value={title}
-								disabled={id == 0 ? false : true}
+								disabled={id === 0 ? false : true}
 								onChange={(event) =>
 									setTitle(event.target.value)
 								}
@@ -311,7 +311,7 @@ const AddUpdateProduct = ({ history }) => {
 								}}
 								onClick={handleSubmit}
 							>
-								{id == 0 ? "Create product" : "Update product"}
+								{id === 0 ? "Create product" : "Update product"}
 							</Button>
 							<Button
 								bg={"red.400"}
