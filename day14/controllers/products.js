@@ -80,7 +80,7 @@ exports.putProduct = (req, res, next) => {
 };
 
 exports.deleteProduct = (req, res, next) => {
-    Product.fetch(req.params.id, (id) => {
+    Product.delete(req.params.id, (id) => {
         if (!id) res.status(500).json({ message: "error" });
         else {
             if (id === -1) res.status(404).json({ message: "No Such Product" });

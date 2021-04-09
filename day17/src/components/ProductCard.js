@@ -1,21 +1,78 @@
-const ProductCard = ({ title, imageUrl, description, price }) => {
-    return (
-        <div>
-            <p>{title}</p>
-            <img
-                src={
-                    process.env.REACT_APP_BACKEND_API +
-                    "/" +
-                    (imageUrl ? imageUrl : "images/default.jpg")
-                }
-                alt={title}
-                width="100px"
-                height="100px"
-            />
-            <p>{description}</p>
-            <p>{price}</p>
-        </div>
-    );
+import { Avatar } from "@chakra-ui/avatar";
+import { Button } from "@chakra-ui/button";
+import { useColorModeValue } from "@chakra-ui/color-mode";
+import { Box, Heading, Stack, Text } from "@chakra-ui/layout";
+import { Link as RouterLink } from "react-router-dom";
+
+const ProductCard = ({
+	id,
+	title,
+	imageUrl,
+	description,
+	price,
+	handleDelete,
+}) => {
+	return (
+		<Box
+			maxW={"320px"}
+			w={"full"}
+			bg={useColorModeValue("white", "gray.900")}
+			boxShadow={"2xl"}
+			rounded={"lg"}
+			p={6}
+			textAlign={"center"}
+		>
+			<Avatar
+				size={"xl"}
+				src={
+					process.env.REACT_APP_BACKEND_API +
+					"/" +
+					(imageUrl ? imageUrl : "images/default.jpg")
+				}
+				alt={"Avatar Alt"}
+				mb={4}
+				pos={"relative"}
+			/>
+			<Heading fontSize={"2xl"} fontFamily={"body"}>
+				{title}
+			</Heading>
+			<Text fontWeight={600} color={"gray.500"} mb={4}>
+				&#8377; {price}
+			</Text>
+
+			<Stack mt={8} direction={"row"} spacing={4}>
+				<Button
+					flex={1}
+					fontSize={"sm"}
+					rounded={"full"}
+					_focus={{
+						bg: "gray.200",
+					}}
+				>
+					<RouterLink to={`/update/product/${id}`}>Edit</RouterLink>
+				</Button>
+				<Button
+					flex={1}
+					fontSize={"sm"}
+					rounded={"full"}
+					bg={"blue.400"}
+					color={"white"}
+					boxShadow={
+						"0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+					}
+					_hover={{
+						bg: "blue.500",
+					}}
+					_focus={{
+						bg: "blue.500",
+					}}
+					onClick={() => handleDelete(id)}
+				>
+					Delete
+				</Button>
+			</Stack>
+		</Box>
+	);
 };
 
 export default ProductCard;

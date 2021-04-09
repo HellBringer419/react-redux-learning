@@ -10,23 +10,33 @@
         "role": "USER"
     },
     {
-        "_id": "6854",
-        "userName": "",
+        "_id": "7241",
+        "userName": "WOw",
+        "profilePic": "",
+        "email": "wow@wow.wow",
+        "password": "$2a$12$ektBqOEvBJ8oH5OWnFHzqeb6aOUckH3qWWbOW0SjgAVDI6EjdNkWi",
+        "firstName": "Wow",
+        "lastName": "Me",
+        "role": "USER"
+    },
+    {
+        "_id": "6340",
+        "userName": "HbN",
         "profilePic": "images/8aff59f7-7967-4c9e-afdd-4e084371bf09Terrible-Facebook-Sans-Undertale-Wallpaper.jpg",
         "email": "my2@email.com",
-        "password": "$2a$12$Dp0t5kuysxSsSyj8umGwbuHBK0qvNS/7QP1v284V.WAM9mpzkDs1u",
+        "password": "$2a$12$Kj1Fwk3HbMK1BwCgkt0xIumaeDnW5NjSRU21HcbRW13.VQffIkBUi",
         "firstName": "H",
         "lastName": "N",
         "role": "USER"
     },
     {
-        "_id": "6801",
-        "userName": "WOw",
-        "profilePic": "",
-        "email": "wow@wow.wow",
-        "password": "$2a$12$1Ygm1Mgj7b1Ej4LR02Mf1urs3ggzviznt4RRH3l10IFjsWalc3n86",
-        "firstName": "Wow",
-        "lastName": "Me",
+        "_id": "5750",
+        "userName": "Penguin",
+        "profilePic": "images/1de66fb5-0df3-453d-b4e2-f7dd00de38depenguins.jpg",
+        "email": "peng@uin.com",
+        "password": "$2a$12$PEc3vPUDTHT0Ch4i2Nds4.YUl5nGfxin7FsQQ/mzqw1eQ2OXZm50S",
+        "firstName": "Tux",
+        "lastName": "Penguin",
         "role": "USER"
     }
 ]

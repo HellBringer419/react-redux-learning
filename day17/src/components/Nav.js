@@ -44,7 +44,7 @@ const Nav = ({ history }) => {
     }, [currentUser]);
 
     const handleSettings = () => {
-        history.push(`/update/${currentUser.id}`);
+        history.push(`/update/user/${currentUser.id}`);
     };
 
     const handleLogout = () => {
