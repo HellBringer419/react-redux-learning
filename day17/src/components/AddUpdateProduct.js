@@ -128,7 +128,7 @@ const AddUpdateProduct = ({ history }) => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 
-		if (validateTitle() && validatePrice()) {
+		if (validateTitle() && validatePrice() && validateDescription()) {
 			const payload = {
 				id: id === 0 ? null : id,
 				title: title,

@@ -12,19 +12,23 @@ import {
 	Text,
 } from "@chakra-ui/layout";
 import axios from "axios";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { connect } from "react-redux";
 import { useParams } from "react-router";
-import { UserContext } from "../utils/UserContext";
+import { ACTIONS } from "../store/reducer";
 
-const UserSetting = ({ history }) => {
-	const [currentUser, setCurrentUser] = useContext(UserContext);
-
-	const [email, setEmail] = useState("");
+const UserSetting = ({
+	history,
+	currentUser,
+	handleUserLogout,
+	handleUserLogin,
+}) => {
+	const [email, setEmail] = useState(currentUser.email || "");
 	const [password, setPassword] = useState("");
-	const [pic, setPic] = useState("");
-	const [firstName, setFirstName] = useState("");
-	const [lastName, setLastName] = useState("");
-	const [userName, setUserName] = useState("");
+	const [pic, setPic] = useState(currentUser.profilePic || "");
+	const [firstName, setFirstName] = useState(currentUser.firstName || "");
+	const [lastName, setLastName] = useState(currentUser.lastName || "");
+	const [userName, setUserName] = useState(currentUser.userName || "");
 	const [errors, setErrors] = useState({
 		email: false,
 		password: false,
@@ -42,22 +46,10 @@ const UserSetting = ({ history }) => {
 	const id = Number(useParams().user);
 
 	useEffect(() => {
-		if (currentUser === null) {
+		if (currentUser.id === 0) {
 			if (id !== 0) {
 				history.push("/");
 			} else console.log("CREATE user mode");
-		} else {
-			axios
-				.get(`${process.env.REACT_APP_BACKEND_API}/users/${id}`)
-				.then((res) => {
-					setEmail(res.data.email);
-					// Password is encypted, so not included
-					setPic(res.data.profilePic);
-					setFirstName(res.data.firstName);
-					setLastName(res.data.lastName);
-					setUserName(res.data.userName);
-				})
-				.catch((error) => console.error(error));
 		}
 	}, [currentUser, history, id]);
 
@@ -71,8 +63,8 @@ const UserSetting = ({ history }) => {
 			})
 			.then((res) => {
 				if (res.status === 200) {
+					handleUserLogout();
 					history.push("/");
-					setCurrentUser(null);
 				} else {
 					console.log(res.status);
 				}
@@ -166,8 +158,8 @@ const UserSetting = ({ history }) => {
 					.then((res) => {
 						if (res.status === 201) {
 							setUpdated(true);
+							handleUserLogout();
 							history.push("/login");
-							setCurrentUser(null);
 						}
 					})
 					.catch((error) => console.error(error));
@@ -184,10 +176,34 @@ const UserSetting = ({ history }) => {
 					)
 					.then((res) => {
 						if (res.status === 201) {
-							setUpdated(true);
-							setAuthorized(true);
-							setCurrentUser({ ...currentUser });
-							history.push(`/home/${currentUser.id}`);
+							let user = {
+								id: currentUser.id,
+								token: currentUser.token,
+							};
+
+							axios
+								.get(
+									`${process.env.REACT_APP_BACKEND_API}/users/${currentUser.id}`
+								)
+								.then((res) => {
+									if (res.status === 200) {
+										user = {
+											...user,
+											userName: res.data.userName,
+											profilePic: res.data.profilePic,
+											email: res.data.email,
+											password: res.data.password,
+											firstName: res.data.firstName,
+											lastName: res.data.lastName,
+										};
+									}
+									console.log(user);
+									handleUserLogin(user);
+									setUpdated(true);
+									setAuthorized(true);
+									history.push(`/home/${currentUser.id}`);
+								})
+								.catch((error) => console.error(error));
 						} else {
 							console.log(res.status);
 						}
@@ -396,4 +412,18 @@ const UserSetting = ({ history }) => {
 	);
 };
 
-export default UserSetting;
+const mapStateToProps = (state) => {
+	return {
+		currentUser: state.currentUser,
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		handleUserLogout: () => dispatch({ type: ACTIONS.LOGOUT }),
+		handleUserLogin: (payload) =>
+			dispatch({ type: ACTIONS.LOGIN, payload: payload }),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserSetting);

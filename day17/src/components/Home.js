@@ -1,58 +1,54 @@
 import { Button } from "@chakra-ui/button";
 import { Container, HStack, Stack, Text } from "@chakra-ui/layout";
-import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect } from "react";
+import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-import { UserContext } from "../utils/UserContext";
 
-const Home = ({ history }) => {
-    const [currentUser] = useContext(UserContext);
-    const [user, setUser] = useState(null);
+const Home = ({ history, currentUser }) => {
+	useEffect(() => {
+		if (currentUser.id === 0) history.push("/");
+	}, [currentUser, history]);
 
-    useEffect(() => {
-        if (currentUser === null) history.push("/");
-        else {
-            axios
-                .get(
-                    `${process.env.REACT_APP_BACKEND_API}/users/${currentUser.id}`
-                )
-                .then((res) => setUser(res.data))
-                .catch((error) => console.error(error));
-        }
-    }, [currentUser, history]);
-
-    return (
-        <Container py={4}>
-            <Stack spacing="8">
-                <Text fontSize="5xl" as="span">
-                    Welcome To{" "}
-                    <Text fontSize="6xl" display="inline">
-                        Brand
-                    </Text>
-                </Text>
-                <Text fontSize="md" as="span">
-                    {user ? `Welcome ${user.userName}, we ` : "We "}
-                    can show you our awesome{" "}
-                    <Text as="b" display="inline">
-                        products{" "}
-                    </Text>
-                    OR Get to know our huge list of{" "}
-                    <Text as="b" display="inline">
-                        users
-                    </Text>
-                    .
-                </Text>
-                <HStack justifyContent={"space-around"}>
-                    <Button bg={"gray.200"}>
-                        <RouterLink to="/products"> Products </RouterLink>
-                    </Button>
-                    <Button>
-                        <RouterLink to="/users"> Users </RouterLink>
-                    </Button>
-                </HStack>
-            </Stack>
-        </Container>
-    );
+	return (
+		<Container py={4}>
+			<Stack spacing="8">
+				<Text fontSize="5xl" as="span">
+					Welcome To{" "}
+					<Text fontSize="6xl" display="inline">
+						Brand
+					</Text>
+				</Text>
+				<Text fontSize="md" as="span">
+					{currentUser.id !== 0
+						? `Welcome ${currentUser.userName}, we `
+						: "We "}
+					can show you our awesome{" "}
+					<Text as="b" display="inline">
+						products{" "}
+					</Text>
+					OR Get to know our huge list of{" "}
+					<Text as="b" display="inline">
+						users
+					</Text>
+					.
+				</Text>
+				<HStack justifyContent={"space-around"}>
+					<Button bg={"gray.200"}>
+						<RouterLink to="/products"> Products </RouterLink>
+					</Button>
+					<Button>
+						<RouterLink to="/users"> Users </RouterLink>
+					</Button>
+				</HStack>
+			</Stack>
+		</Container>
+	);
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+	return {
+		currentUser: state.currentUser,
+	};
+};
+
+export default connect(mapStateToProps)(Home);

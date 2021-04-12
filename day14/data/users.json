@@ -28,15 +28,5 @@
         "firstName": "H",
         "lastName": "N",
         "role": "USER"
-    },
-    {
-        "_id": "8188",
-        "userName": "Penguins",
-        "profilePic": "",
-        "email": "peng@uin.com",
-        "password": "$2a$12$JdbRNuAldHuXIVtjRrXMguq/snqKp1lUJLv4QM8RJRdv.I3Rh/Fae",
-        "firstName": "Penguins",
-        "lastName": "Madagascar",
-        "role": "USER"
     }
 ]

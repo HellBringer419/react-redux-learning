@@ -49,7 +49,7 @@ const Products = () => {
 
 					setDeleteMessage(
 						`Deleted product ${
-							products.find((product) => product._id == id).title
+							products.find((product) => product._id === id).title
 						} with id ${id}`
 					);
 					setTimeout(() => setDeleteMessage(""), 3000);
