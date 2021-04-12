@@ -7,7 +7,7 @@
         "password": "$2a$12$InXXwjsaGI68zw6rk2EByOEdPRLDv4oz9p9KwE34Yl0Np6peKUxu2",
         "firstName": "Ni",
         "lastName": "tro",
-        "role": "USER"
+        "role": "ADMIN"
     },
     {
         "_id": "7241",
@@ -20,13 +20,13 @@
         "role": "USER"
     },
     {
-        "_id": "6340",
-        "userName": "HbN",
-        "profilePic": "images/8aff59f7-7967-4c9e-afdd-4e084371bf09Terrible-Facebook-Sans-Undertale-Wallpaper.jpg",
-        "email": "my2@email.com",
-        "password": "$2a$12$Kj1Fwk3HbMK1BwCgkt0xIumaeDnW5NjSRU21HcbRW13.VQffIkBUi",
-        "firstName": "H",
-        "lastName": "N",
-        "role": "USER"
+        "_id": "2004",
+        "userName": "root",
+        "profilePic": "images/6c7842ff-ffd4-4125-8d07-968189176556wallhaven-firewood.jpg",
+        "email": "super@user.com",
+        "password": "$2a$12$yOACeh7J.495SdvG8ud6ReTyPpv.PqVKvkswu10HytHNECKH/aOpO",
+        "firstName": "Honey",
+        "lastName": "Pot",
+        "role": "ADMIN"
     }
 ]
