@@ -73,7 +73,7 @@ exports.postUser = (req, res, next) => {
 };
 
 exports.putUser = (req, res, next) => {
-	if (req.token.id !== req.params.id || req.token.role === ROLE.ADMIN) {
+	if (!(req.token.id === req.params.id || req.token.role === ROLE.ADMIN)) {
 		const error = new Error("Un-Authorized to UPDATE this");
 		error.statusCode = 403;
 		throw error;
@@ -126,8 +126,7 @@ exports.putUser = (req, res, next) => {
 };
 
 exports.deleteUser = (req, res, next) => {
-	console.log(req.token);
-	if (req.token.role === ROLE.ADMIN) {
+	if (req.token.role !== ROLE.ADMIN) {
 		const error = new Error("Un-Authorized to DELETE this");
 		error.statusCode = 403;
 		throw error;

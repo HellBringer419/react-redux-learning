@@ -5,14 +5,17 @@ import { Box, Container, SimpleGrid, Text } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
+import { ACTIONS } from "../store/reducer";
 import Pagination from "./Pagination";
 import UserCard from "./UserCard";
 
-const Users = () => {
+const Users = ({ currentUser, handleUserLogout }) => {
 	const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [deleteMessage, setDeleteMessage] = useState("");
 
 	// constants for pagination
 	const PER_PAGE = 3;
@@ -36,6 +39,31 @@ const Users = () => {
 		fetchUsers();
 	}, []);
 
+	const handleDelete = (id) => {
+		axios
+			.delete(`${process.env.REACT_APP_BACKEND_API}/admin/users/${id}`, {
+				headers: {
+					Authorization: `Basic ${currentUser.token}`,
+				},
+			})
+			.then((res) => {
+				if (res.status === 200) {
+					setUsers(users.filter((user) => user._id !== id));
+					setCurrentPage(1);
+
+					setDeleteMessage(res.data.message);
+
+					if (id === currentUser.id) handleUserLogout();
+					setTimeout(() => {
+						setDeleteMessage("");
+					}, 3000);
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	};
+
 	const handlePaginate = (nextPage) => {
 		setCurrentPage(nextPage);
 	};
@@ -43,6 +71,15 @@ const Users = () => {
 	return (
 		<Container py={4}>
 			<Text fontSize="md"> Our list of users: </Text>
+
+			{deleteMessage !== "" ? (
+				<Alert status="error">
+					<AlertIcon />
+					{deleteMessage}
+				</Alert>
+			) : (
+				""
+			)}
 
 			{!users ? (
 				<Alert status="error">
@@ -83,6 +120,7 @@ const Users = () => {
 								email={user.email}
 								firstName={user.firstName}
 								lastName={user.lastName}
+								handleDelete={handleDelete}
 							/>
 						))
 				)}
@@ -113,4 +151,16 @@ const Users = () => {
 	);
 };
 
-export default Users;
+const mapStateToProps = (state) => {
+	return {
+		currentUser: state.currentUser,
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		handleUserLogout: () => dispatch({ type: ACTIONS.LOGOUT }),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Users);

@@ -111,7 +111,6 @@ class Login extends Component {
 										lastName: res.data.lastName,
 									};
 								}
-								console.log(user);
 								this.props.handleUserLogin(user);
 								this.props.history.push(`/home/${user.id}`);
 							})

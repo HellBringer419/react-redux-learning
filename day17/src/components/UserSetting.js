@@ -17,18 +17,14 @@ import { connect } from "react-redux";
 import { useParams } from "react-router";
 import { ACTIONS } from "../store/reducer";
 
-const UserSetting = ({
-	history,
-	currentUser,
-	handleUserLogout,
-	handleUserLogin,
-}) => {
-	const [email, setEmail] = useState(currentUser.email || "");
+// TODO: link all apis properly
+const UserSetting = ({ history, currentUser, handleUserLogin }) => {
+	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [pic, setPic] = useState(currentUser.profilePic || "");
-	const [firstName, setFirstName] = useState(currentUser.firstName || "");
-	const [lastName, setLastName] = useState(currentUser.lastName || "");
-	const [userName, setUserName] = useState(currentUser.userName || "");
+	const [profilePic, setProfilePic] = useState("");
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
+	const [userName, setUserName] = useState("");
 	const [errors, setErrors] = useState({
 		email: false,
 		password: false,
@@ -37,6 +33,7 @@ const UserSetting = ({
 		lastName: false,
 		userName: false,
 	});
+	const [userExists, setUserExists] = useState(true);
 	const [authorized, setAuthorized] = useState(true);
 	const [updated, setUpdated] = useState(false);
 
@@ -47,34 +44,30 @@ const UserSetting = ({
 
 	useEffect(() => {
 		if (currentUser.id === 0) {
+			history.push("/");
+		} else {
 			if (id !== 0) {
-				history.push("/");
-			} else console.log("CREATE user mode");
+				axios
+					.get(
+						`${process.env.REACT_APP_BACKEND_API}/users/${id}`
+					)
+					.then((res) => {
+						setUserExists(true);
+						if (res.status === 200) {
+							setUserName(res.data.userName);
+							setProfilePic(res.data.profilePic);
+							setEmail(res.data.email);
+							setFirstName(res.data.firstName);
+							setLastName(res.data.lastName);
+						}
+					})
+					.catch((error) => {
+						console.error(error);
+						setUserExists(false);
+					});
+			}
 		}
 	}, [currentUser, history, id]);
-
-	const handleDelete = (event) => {
-		event.preventDefault();
-		axios
-			.delete(`${process.env.REACT_APP_BACKEND_API}/users/${id}`, {
-				headers: {
-					Authorization: `Basic ${currentUser.token}`,
-				},
-			})
-			.then((res) => {
-				if (res.status === 200) {
-					handleUserLogout();
-					history.push("/");
-				} else {
-					console.log(res.status);
-				}
-			})
-			.catch((error) => {
-				console.error(error);
-
-				setAuthorized(false);
-			});
-	};
 
 	const handleUpload = (event) => {
 		event.preventDefault();
@@ -90,7 +83,7 @@ const UserSetting = ({
 					},
 				})
 				.then((res) => {
-					setPic(res.data.path);
+					setProfilePic(res.data.path);
 				})
 				.catch((error) => console.error(error));
 		}
@@ -133,16 +126,33 @@ const UserSetting = ({
 		}
 	};
 
+	const resetFields = () => {
+		if (id === 0) setUserName("");
+		setProfilePic("");
+		setEmail("");
+		setPassword("");
+		setFirstName("");
+		setLastName("");
+		setErrors({
+			title: false,
+			imageUrl: false,
+			description: false,
+			price: false,
+		});
+		setUpdated(false);
+
+		setFileName("");
+	};
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
 
 		// TODO: add confirm passw modal
-		// made a slight change to put request ... do check
 
 		if (validateUserName() && validateEmail() && validatePassword()) {
 			const payload = {
 				userName: userName,
-				profilePic: pic,
+				profilePic: profilePic,
 				email: email,
 				password: password,
 				firstName: firstName,
@@ -152,17 +162,25 @@ const UserSetting = ({
 			if (id === 0) {
 				axios
 					.post(
-						`${process.env.REACT_APP_BACKEND_API}/auth/signup`,
-						payload
+						`${process.env.REACT_APP_BACKEND_API}/admin/users/`,
+						payload,
+						{
+							headers: {
+								Authorization: `Basic ${currentUser.token}`,
+							},
+						}
 					)
 					.then((res) => {
+						setAuthorized(true);
 						if (res.status === 201) {
 							setUpdated(true);
-							handleUserLogout();
-							history.push("/login");
+							history.push("/users");
 						}
 					})
-					.catch((error) => console.error(error));
+					.catch((error) => {
+						console.error(error);
+						setAuthorized(false);
+					});
 			} else {
 				axios
 					.put(
@@ -175,42 +193,47 @@ const UserSetting = ({
 						}
 					)
 					.then((res) => {
+						setAuthorized(true);
 						if (res.status === 201) {
-							let user = {
-								id: currentUser.id,
-								token: currentUser.token,
-							};
+							setUpdated(true);
+							setAuthorized(true);
 
-							axios
-								.get(
-									`${process.env.REACT_APP_BACKEND_API}/users/${currentUser.id}`
-								)
-								.then((res) => {
-									if (res.status === 200) {
-										user = {
-											...user,
-											userName: res.data.userName,
-											profilePic: res.data.profilePic,
-											email: res.data.email,
-											password: res.data.password,
-											firstName: res.data.firstName,
-											lastName: res.data.lastName,
-										};
-									}
-									console.log(user);
-									handleUserLogin(user);
-									setUpdated(true);
-									setAuthorized(true);
-									history.push(`/home/${currentUser.id}`);
-								})
-								.catch((error) => console.error(error));
+							if (id === currentUser.id) {
+								let user = {
+									id: currentUser.id,
+									token: currentUser.token,
+								};
+
+								axios
+									.get(
+										`${process.env.REACT_APP_BACKEND_API}/users/${currentUser.id}`
+									)
+									.then((res) => {
+										if (res.status === 200) {
+											user = {
+												...user,
+												userName: res.data.userName,
+												profilePic: res.data.profilePic,
+												email: res.data.email,
+												password: res.data.password,
+												firstName: res.data.firstName,
+												lastName: res.data.lastName,
+											};
+										}
+										console.log(user);
+										handleUserLogin(user);
+										history.push(`/home/${currentUser.id}`);
+									})
+									.catch((error) => console.error(error));
+							} else {
+								history.push("/users");
+							}
 						} else {
 							console.log(res.status);
 						}
 					})
 					.catch((error) => {
 						console.error(error);
-
 						setUpdated(false);
 						setAuthorized(false);
 					});
@@ -239,6 +262,15 @@ const UserSetting = ({
 						<Alert status="error">
 							<AlertIcon />
 							You are not authorized to access this account
+						</Alert>
+					) : (
+						""
+					)}
+
+					{!userExists ? (
+						<Alert status="error">
+							<AlertIcon />
+							Such a user does not exist
 						</Alert>
 					) : (
 						""
@@ -310,7 +342,7 @@ const UserSetting = ({
 
 						<FormControl id="pic">
 							<FormLabel>Profile Picture</FormLabel>
-							{pic !== "" ? (
+							{profilePic !== "" ? (
 								<Image
 									boxSize="300px"
 									borderRadius="full"
@@ -319,7 +351,7 @@ const UserSetting = ({
 									src={
 										process.env.REACT_APP_BACKEND_API +
 										"/" +
-										pic
+										profilePic
 									}
 									p="5"
 								/>
@@ -399,10 +431,9 @@ const UserSetting = ({
 								_hover={{
 									bg: "red.500",
 								}}
-								onClick={handleDelete}
-								disabled={id === 0 ? true : false}
+								onClick={resetFields}
 							>
-								DELETE account
+								Reset
 							</Button>
 						</HStack>
 					</Stack>
@@ -420,7 +451,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		handleUserLogout: () => dispatch({ type: ACTIONS.LOGOUT }),
 		handleUserLogin: (payload) =>
 			dispatch({ type: ACTIONS.LOGIN, payload: payload }),
 	};

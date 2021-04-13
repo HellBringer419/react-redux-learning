@@ -4,7 +4,15 @@ import { useColorModeValue } from "@chakra-ui/color-mode";
 import { Box, Heading, Stack, Text } from "@chakra-ui/layout";
 import { Link as RouterLink } from "react-router-dom";
 
-const UserCard = ({ id, userName, profilePic, email, firstName, lastName }) => {
+const UserCard = ({
+	id,
+	userName,
+	profilePic,
+	email,
+	firstName,
+	lastName,
+	handleDelete,
+}) => {
 	return (
 		<Box
 			maxW={"320px"}
@@ -62,8 +70,9 @@ const UserCard = ({ id, userName, profilePic, email, firstName, lastName }) => {
 					_focus={{
 						bg: "blue.500",
 					}}
+					onClick={() => handleDelete(id)}
 				>
-					<RouterLink to={`/update/user/${id}`}>Delete</RouterLink>
+					Delete
 				</Button>
 			</Stack>
 		</Box>
