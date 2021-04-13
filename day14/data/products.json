@@ -12,5 +12,13 @@
         "imageUrl": "images/71601501-8b85-4c9a-9452-dd177bf58efcpenguins.jpg",
         "description": "Precious, smart and adorable penguins",
         "price": 87000
+    },
+    {
+        "_id": "8542",
+        "title": "Kriss Vector",
+        "imageUrl": "images/65015de1-1338-42cb-b64b-6706b6670dbavector2_landscape.jpg",
+        "description": "Sub Machine Gun with high rate of fire. Available in .45acp and .9mm variants",
+        "price": 1300,
+        "expiryDate": "1980-05-25T00:00:00.000Z"
     }
 ]

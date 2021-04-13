@@ -14,12 +14,13 @@ const getAllProductsFromFile = (productsCallBack) => {
 };
 
 module.exports = class Product {
-	constructor(id, title, imageUrl, description, price) {
+	constructor(id, title, imageUrl, description, price, expiryDate) {
 		this._id = id;
 		this.title = title;
 		this.imageUrl = imageUrl;
 		this.description = description;
 		this.price = price;
+		this.expiryDate = expiryDate;
 	}
 
 	save(idCallBack) {

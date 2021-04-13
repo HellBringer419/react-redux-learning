@@ -31,7 +31,8 @@ module.exports = class User {
 		this.role = role;
 		if (dob) {
 			this.dob = dob;
-			this.age = 0; // TODO: add age calculation
+			const millisInAYear = 1000 * 60 * 60 * 24 * 365.25;
+			this.age = Math.floor(Math.abs(new Date() - dob)/millisInAYear ); // TODO: add age calculation
 		}
 	}
 

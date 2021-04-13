@@ -20,13 +20,15 @@
         "role": "ROLE_USER"
     },
     {
-        "_id": "8566",
-        "userName": "Wow",
-        "profilePic": "images/499a4308-5bfd-4298-b260-67f775454d11cozy-winter-night.jpg",
-        "email": "wow@wow.wow",
-        "password": "$2a$12$4ACokhdPDWky10M.FxNFO.5VgwijufNFaF8bTmX.r9t4mn2hcNk/O",
-        "firstName": "Wow",
-        "lastName": "There",
-        "role": "USER"
+        "_id": "10561",
+        "userName": "dummy",
+        "profilePic": "images/6c7842ff-ffd4-4125-8d07-968189176556wallhaven-firewood.jpg",
+        "email": "dummy@user.com",
+        "password": "$2a$12$RsaO3lC34GBf1bAAQ08TZOwlibE4844KkojAPnyxxVtrRWwry6.x2",
+        "firstName": "Honey",
+        "lastName": "Pot",
+        "role": "ROLE_USER",
+        "dob": "1980-05-25T00:00:00.000Z",
+        "age": 40
     }
 ]

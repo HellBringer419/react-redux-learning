@@ -48,7 +48,8 @@ exports.postUser = (req, res, next) => {
 				hashedPassword,
 				req.body.firstName,
 				req.body.lastName,
-				"USER"
+				ROLE.USER,
+				new Date(req.body.dob)
 			);
 			if (!user) {
 				const error = new Error("Invalid User details");
@@ -97,7 +98,8 @@ exports.putUser = (req, res, next) => {
 				hashedPassword,
 				req.body.firstName,
 				req.body.lastName,
-				ROLE.USER
+				ROLE.USER,
+				new Date(req.body.dob)
 			);
 			if (!user) {
 				const error = new Error("Invalid User details");
