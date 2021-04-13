@@ -120,6 +120,7 @@ const Users = ({ currentUser, handleUserLogout }) => {
 								email={user.email}
 								firstName={user.firstName}
 								lastName={user.lastName}
+								role={user.role}
 								handleDelete={handleDelete}
 							/>
 						))
