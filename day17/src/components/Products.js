@@ -14,6 +14,7 @@ const Products = () => {
 	const [loading, setLoading] = useState(false);
 	const [deleteMessage, setDeleteMessage] = useState("");
 	const [currentPage, setCurrentPage] = useState(1);
+	const [authorized, setAuthorized] = useState(true);
 
 	// constants for pagination
 	const PER_PAGE = 1;
@@ -35,12 +36,20 @@ const Products = () => {
 		};
 
 		fetchProducts();
+
+		return () => {
+			setProducts([]);
+			setLoading(false);
+			setDeleteMessage("");
+			setCurrentPage(1);
+		};
 	}, []);
 
 	const handleDelete = (id) => {
 		axios
 			.delete(`${process.env.REACT_APP_BACKEND_API}/products/${id}`)
 			.then((res) => {
+				setAuthorized(true);
 				if (res.status === 200) {
 					setProducts(
 						products.filter((product) => product._id !== id)
@@ -55,7 +64,10 @@ const Products = () => {
 					setTimeout(() => setDeleteMessage(""), 3000);
 				}
 			})
-			.catch((error) => console.error(error));
+			.catch((error) => {
+				console.error(error);
+				setAuthorized(false);
+			});
 	};
 
 	const handlePaginate = (nextPage) => {
@@ -69,6 +81,15 @@ const Products = () => {
 				<Alert status="error">
 					<AlertIcon />
 					{deleteMessage}
+				</Alert>
+			) : (
+				""
+			)}
+
+			{!authorized ? (
+				<Alert status="error">
+					<AlertIcon />
+					You are not authorized to access this account
 				</Alert>
 			) : (
 				""
@@ -111,7 +132,12 @@ const Products = () => {
 								title={product.title}
 								imageUrl={product.imageUrl}
 								description={product.description}
-								price={product.price}
+								price={Number(product.price)}
+								expiryDate={
+									product.expiryDate
+										? new Date(product.expiryDate).toDateString()
+										: null
+								}
 								handleDelete={handleDelete}
 							/>
 						))

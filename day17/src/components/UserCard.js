@@ -14,6 +14,8 @@ const UserCard = ({
 	firstName,
 	lastName,
 	role,
+	dob,
+	age,
 	handleDelete,
 }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -93,6 +95,8 @@ const UserCard = ({
 				firstName={firstName}
 				lastName={lastName}
 				role={role}
+				dob={dob}
+				age={age}
 			/>
 		</Container>
 	);

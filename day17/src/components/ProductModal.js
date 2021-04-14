@@ -9,17 +9,14 @@ import {
 	ModalOverlay,
 } from "@chakra-ui/modal";
 
-const UserModal = ({
+const ProductModal = ({
 	isOpen,
 	onClose,
-	userName,
-	profilePic,
-	email,
-	firstName,
-	lastName,
-	role,
-	dob,
-	age,
+	title,
+	imageUrl,
+	description,
+	price,
+	expiryDate,
 }) => {
 	return (
 		<Modal
@@ -31,7 +28,7 @@ const UserModal = ({
 		>
 			<ModalOverlay />
 			<ModalContent>
-				<ModalHeader>{userName}</ModalHeader>
+				<ModalHeader>{title}</ModalHeader>
 				<ModalCloseButton />
 				<ModalBody>
 					<Flex flexDir="column">
@@ -45,14 +42,14 @@ const UserModal = ({
 								color={"gray.500"}
 								fontSize="md"
 							>
-								First Name
+								Price
 							</Text>
 							<Text
 								fontWeight={300}
 								color={"gray.900"}
 								fontSize="lg"
 							>
-								{firstName}
+								{price}
 							</Text>
 						</Stack>
 
@@ -68,14 +65,14 @@ const UserModal = ({
 								color={"gray.500"}
 								fontSize="md"
 							>
-								Last Name
+								Description
 							</Text>
 							<Text
 								fontWeight={300}
 								color={"gray.900"}
 								fontSize="lg"
 							>
-								{lastName}
+								{description}
 							</Text>
 						</Stack>
 
@@ -91,60 +88,14 @@ const UserModal = ({
 								color={"gray.500"}
 								fontSize="md"
 							>
-								E-mail
+								Expiry Date
 							</Text>
 							<Text
 								fontWeight={300}
 								color={"gray.900"}
 								fontSize="lg"
 							>
-								{email}
-							</Text>
-						</Stack>
-
-						<Spacer />
-
-						<Stack
-							py={2}
-							direction={["column", "row"]}
-							align="baseline"
-						>
-							<Text
-								fontWeight={600}
-								color={"gray.500"}
-								fontSize="md"
-							>
-								Date of Birth
-							</Text>
-							<Text
-								fontWeight={300}
-								color={"gray.900"}
-								fontSize="lg"
-							>
-								{dob ? dob : "(Not provided)"}
-							</Text>
-						</Stack>
-
-						<Spacer />
-
-						<Stack
-							py={2}
-							direction={["column", "row"]}
-							align="baseline"
-						>
-							<Text
-								fontWeight={600}
-								color={"gray.500"}
-								fontSize="md"
-							>
-								Age
-							</Text>
-							<Text
-								fontWeight={300}
-								color={"gray.900"}
-								fontSize="lg"
-							>
-								{age ? `${age} years` : "(Not provided)"}
+								{expiryDate ? expiryDate : "(Not provided)"}
 							</Text>
 						</Stack>
 
@@ -156,17 +107,15 @@ const UserModal = ({
 								color={"gray.500"}
 								fontSize="md"
 							>
-								Profile Pic
+								Product Image
 							</Text>
 							<Image
 								src={
 									process.env.REACT_APP_BACKEND_API +
 									"/" +
-									(profilePic
-										? profilePic
-										: "images/default.jpg")
+									(imageUrl ? imageUrl : "images/default.jpg")
 								}
-								alt={`${userName}'s Profile Picture`}
+								alt={`${title}'s image`}
 							/>
 						</VStack>
 
@@ -182,37 +131,14 @@ const UserModal = ({
 								color={"gray.500"}
 								fontSize="md"
 							>
-								User Name
+								Title
 							</Text>
 							<Text
 								fontWeight={300}
 								color={"gray.900"}
 								fontSize="lg"
 							>
-								{userName}
-							</Text>
-						</Stack>
-
-						<Spacer />
-
-						<Stack
-							py={2}
-							direction={["column", "row"]}
-							align="baseline"
-						>
-							<Text
-								fontWeight={600}
-								color={"gray.500"}
-								fontSize="md"
-							>
-								Role
-							</Text>
-							<Text
-								fontWeight={300}
-								color={"gray.900"}
-								fontSize="lg"
-							>
-								{role}
+								{title}
 							</Text>
 						</Stack>
 					</Flex>
@@ -222,4 +148,4 @@ const UserModal = ({
 	);
 };
 
-export default UserModal;
+export default ProductModal;

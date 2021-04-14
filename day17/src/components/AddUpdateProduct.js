@@ -7,16 +7,16 @@ import {
 	Box,
 	Container,
 	Heading,
-	HStack,
+
 	Stack,
-	Text,
+	Text
 } from "@chakra-ui/layout";
 import {
 	NumberDecrementStepper,
 	NumberIncrementStepper,
 	NumberInput,
 	NumberInputField,
-	NumberInputStepper,
+	NumberInputStepper
 } from "@chakra-ui/number-input";
 import { Textarea } from "@chakra-ui/textarea";
 import axios from "axios";
@@ -28,12 +28,15 @@ const AddUpdateProduct = ({ history }) => {
 	const [imageUrl, setImageUrl] = useState("");
 	const [description, setDescription] = useState("");
 	const [price, setPrice] = useState(0);
+	const [expiryDate, setExpiryDate] = useState("");
 	const [errors, setErrors] = useState({
 		title: false,
 		imageUrl: false,
 		description: false,
 		price: false,
+		expiryDate: false
 	});
+	const [productExists, setProductExists] = useState(true);
 	const [updated, setUpdated] = useState(false);
 
 	const [fileName, setFileName] = useState("");
@@ -43,20 +46,23 @@ const AddUpdateProduct = ({ history }) => {
 
 	useEffect(() => {
 		if (id !== 0) {
-			// GET product
 			axios
 				.get(`${process.env.REACT_APP_BACKEND_API}/products/${id}`)
 				.then((res) => {
+					setProductExists(true);
 					setTitle(res.data.title);
 					setImageUrl(res.data.imageUrl);
 					setDescription(res.data.description);
 					setPrice(res.data.price);
 				})
-				.catch((error) => console.error(error));
+				.catch((error) => {
+					console.error(error)
+					setProductExists(false)
+				});
 		} else {
-			// new
 			console.log("CREATE product mode");
 		}
+		return () => resetFields();
 	}, [id]);
 
 	const handleUpload = (event) => {
@@ -114,12 +120,14 @@ const AddUpdateProduct = ({ history }) => {
 		setImageUrl("");
 		setDescription("");
 		setPrice(0);
+		setExpiryDate("");
 		setErrors({
 			title: false,
 			imageUrl: false,
 			description: false,
 			price: false,
 		});
+		setProductExists(true);
 		setUpdated(false);
 
 		setFileName("");
@@ -135,6 +143,7 @@ const AddUpdateProduct = ({ history }) => {
 				imageUrl: imageUrl,
 				description: description,
 				price: Number(price),
+				expiryDate: expiryDate !== "" ? new Date(expiryDate) : null,
 			};
 
 			if (id === 0) {
@@ -179,6 +188,15 @@ const AddUpdateProduct = ({ history }) => {
 						<Alert status="success">
 							<AlertIcon />
 							Changes made succesfully
+						</Alert>
+					) : (
+						""
+					)}
+
+					{![productExists] ? (
+						<Alert status="error">
+							<AlertIcon />
+							Such a product does not exist
 						</Alert>
 					) : (
 						""
@@ -302,7 +320,18 @@ const AddUpdateProduct = ({ history }) => {
 								</NumberInputStepper>
 							</NumberInput>
 						</FormControl>
-						<HStack spacing={6}>
+						<FormControl id="expiryDate">
+							<FormLabel>Date of Expiry</FormLabel>
+							<Input
+								type="date"
+								name="expiryDate"
+								value={expiryDate}
+								onChange={(event) => {
+									setExpiryDate(event.target.value);
+								}}
+							/>
+						</FormControl>
+						<Stack spacing={6} direction={["column", "row"]}>
 							<Button
 								bg={"blue.400"}
 								color={"white"}
@@ -323,7 +352,7 @@ const AddUpdateProduct = ({ history }) => {
 							>
 								Reset
 							</Button>
-						</HStack>
+						</Stack>
 					</Stack>
 				</Box>
 			</Stack>

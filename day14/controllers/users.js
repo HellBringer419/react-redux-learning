@@ -49,7 +49,7 @@ exports.postUser = (req, res, next) => {
 				req.body.firstName,
 				req.body.lastName,
 				ROLE.USER,
-				new Date(req.body.dob)
+				req.body.dob ? new Date(req.body.dob) : null
 			);
 			if (!user) {
 				const error = new Error("Invalid User details");
@@ -99,7 +99,7 @@ exports.putUser = (req, res, next) => {
 				req.body.firstName,
 				req.body.lastName,
 				ROLE.USER,
-				new Date(req.body.dob)
+				req.body.dob ? new Date(req.body.dob) : null
 			);
 			if (!user) {
 				const error = new Error("Invalid User details");

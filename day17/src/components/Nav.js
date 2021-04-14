@@ -182,6 +182,27 @@ const Nav = ({ history, currentUser, handleUserLogout }) => {
 							}}
 							as="div"
 						>
+							<RouterLink
+								to={
+									currentUser.id !== 0
+										? `/home/${currentUser.id}`
+										: "/"
+								}
+							>
+								Home
+							</RouterLink>
+						</Link>
+						<Link
+							px={2}
+							py={1}
+							rounded={"md"}
+							_hover={{
+								textDecoration: "none",
+								// bg: useColorModeValue("gray.200", "gray.700"),
+								bg: "gray.200",
+							}}
+							as="div"
+						>
 							<RouterLink to="/products"> Products </RouterLink>
 						</Link>
 						<Link

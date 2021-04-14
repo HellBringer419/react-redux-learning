@@ -7,28 +7,30 @@
         "password": "$2a$12$yOACeh7J.495SdvG8ud6ReTyPpv.PqVKvkswu10HytHNECKH/aOpO",
         "firstName": "Honey",
         "lastName": "Pot",
-        "role": "ROLE_ADMIN"
+        "role": "ROLE_ADMIN",
+        "dob": "2000-04-05T00:00:00.000Z",
+        "age": 21
     },
     {
-        "_id": "5106",
+        "_id": "3393",
         "userName": "Penguin",
-        "profilePic": "",
+        "profilePic": "images/e0380078-75cc-44d7-823e-cddf239a1786penguins.jpg",
         "email": "peng@uin.com",
-        "password": "$2a$12$dWHSSrRbwB4HViRxV8Xb8.ph.x9HTyEQJn6CveLS/U0Q/0i7O7LRu",
+        "password": "$2a$12$J2RDXRZxRWp/p8LJb3S/eerwGBagIS13FSZWa7cG3l2Oe3GtapNXq",
         "firstName": "Penguin",
         "lastName": "Tux",
-        "role": "ROLE_USER"
+        "role": "ROLE_USER",
+        "dob": "2000-04-05T00:00:00.000Z",
+        "age": 21
     },
     {
-        "_id": "10561",
-        "userName": "dummy",
-        "profilePic": "images/6c7842ff-ffd4-4125-8d07-968189176556wallhaven-firewood.jpg",
-        "email": "dummy@user.com",
-        "password": "$2a$12$RsaO3lC34GBf1bAAQ08TZOwlibE4844KkojAPnyxxVtrRWwry6.x2",
-        "firstName": "Honey",
-        "lastName": "Pot",
-        "role": "ROLE_USER",
-        "dob": "1980-05-25T00:00:00.000Z",
-        "age": 40
+        "_id": "9821",
+        "userName": "0w0",
+        "profilePic": "",
+        "email": "wow@wow.wow",
+        "password": "$2a$12$dw0HtVR26QkBeQ2ZVq/sbuThvtOaEZ52VsUrpE/L1YnmF0ZU0cSRm",
+        "firstName": "such",
+        "lastName": "wow",
+        "role": "ROLE_USER"
     }
 ]

@@ -3,21 +3,14 @@ import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Image } from "@chakra-ui/image";
 import { Input, InputGroup, InputRightAddon } from "@chakra-ui/input";
-import {
-	Box,
-	Container,
-	Heading,
-	HStack,
-	Stack,
-	Text,
-} from "@chakra-ui/layout";
+import { Box, Container, Heading, Stack, Text } from "@chakra-ui/layout";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router";
 import { ACTIONS } from "../store/reducer";
 
-// TODO: link all apis properly
+// TODO: memoize and callback ResetFields
 const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -25,6 +18,7 @@ const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [userName, setUserName] = useState("");
+	const [dob, setDob] = useState("");
 	const [errors, setErrors] = useState({
 		email: false,
 		password: false,
@@ -32,6 +26,7 @@ const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 		firstName: false,
 		lastName: false,
 		userName: false,
+		dob: false,
 	});
 	const [userExists, setUserExists] = useState(true);
 	const [authorized, setAuthorized] = useState(true);
@@ -48,9 +43,7 @@ const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 		} else {
 			if (id !== 0) {
 				axios
-					.get(
-						`${process.env.REACT_APP_BACKEND_API}/users/${id}`
-					)
+					.get(`${process.env.REACT_APP_BACKEND_API}/users/${id}`)
 					.then((res) => {
 						setUserExists(true);
 						if (res.status === 200) {
@@ -59,6 +52,7 @@ const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 							setEmail(res.data.email);
 							setFirstName(res.data.firstName);
 							setLastName(res.data.lastName);
+							setDob(res.data.dob ? new Date(res.data.dob) : "");
 						}
 					})
 					.catch((error) => {
@@ -67,6 +61,7 @@ const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 					});
 			}
 		}
+		return () => resetFields();
 	}, [currentUser, history, id]);
 
 	const handleUpload = (event) => {
@@ -133,12 +128,15 @@ const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 		setPassword("");
 		setFirstName("");
 		setLastName("");
+		setDob("");
 		setErrors({
 			title: false,
 			imageUrl: false,
 			description: false,
 			price: false,
+			dob: false,
 		});
+		setUserExists(true);
 		setUpdated(false);
 
 		setFileName("");
@@ -146,8 +144,6 @@ const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-
-		// TODO: add confirm passw modal
 
 		if (validateUserName() && validateEmail() && validatePassword()) {
 			const payload = {
@@ -157,6 +153,7 @@ const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 				password: password,
 				firstName: firstName,
 				lastName: lastName,
+				dob: dob !== "" ? new Date(dob) : null,
 			};
 
 			if (id === 0) {
@@ -218,6 +215,8 @@ const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 												password: res.data.password,
 												firstName: res.data.firstName,
 												lastName: res.data.lastName,
+												dob: res.data.dob,
+												age: res.data.age,
 											};
 										}
 										console.log(user);
@@ -414,7 +413,18 @@ const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 								}
 							/>
 						</FormControl>
-						<HStack spacing={6}>
+						<FormControl id="dob">
+							<FormLabel>Date of Birth</FormLabel>
+							<Input
+								type="date"
+								name="dob"
+								value={dob}
+								onChange={(event) => {
+									setDob(event.target.value);
+								}}
+							/>
+						</FormControl>
+						<Stack spacing={6} direction={["column", "row"]}>
 							<Button
 								bg={"blue.400"}
 								color={"white"}
@@ -435,7 +445,7 @@ const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 							>
 								Reset
 							</Button>
-						</HStack>
+						</Stack>
 					</Stack>
 				</Box>
 			</Stack>

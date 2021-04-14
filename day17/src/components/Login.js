@@ -2,7 +2,7 @@ import { Alert, AlertIcon } from "@chakra-ui/alert";
 import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
-import { Box, Container, Heading, HStack, Stack } from "@chakra-ui/layout";
+import { Box, Container, Heading, Stack } from "@chakra-ui/layout";
 import axios from "axios";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -109,6 +109,7 @@ class Login extends Component {
 										password: res.data.password,
 										firstName: res.data.firstName,
 										lastName: res.data.lastName,
+										dob: res.data.dob,
 									};
 								}
 								this.props.handleUserLogin(user);
@@ -220,7 +221,7 @@ class Login extends Component {
 									onBlur={this.isValidPassword}
 								/>
 							</FormControl>
-							<HStack spacing={6}>
+							<Stack spacing={6} direction={["column", "row"]}>
 								<Button
 									bg={"blue.400"}
 									color={"white"}
@@ -241,7 +242,7 @@ class Login extends Component {
 								>
 									Reset
 								</Button>
-							</HStack>
+							</Stack>
 						</Stack>
 					</Box>
 				</Stack>

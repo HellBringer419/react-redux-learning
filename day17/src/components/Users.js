@@ -16,6 +16,7 @@ const Users = ({ currentUser, handleUserLogout }) => {
 	const [loading, setLoading] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [deleteMessage, setDeleteMessage] = useState("");
+	const [authorized, setAuthorized] = useState(true);
 
 	// constants for pagination
 	const PER_PAGE = 3;
@@ -37,6 +38,13 @@ const Users = ({ currentUser, handleUserLogout }) => {
 		};
 
 		fetchUsers();
+
+		return () => {
+			setUsers([]);
+			setLoading(false);
+			setCurrentPage(1);
+			setDeleteMessage("");
+		};
 	}, []);
 
 	const handleDelete = (id) => {
@@ -47,6 +55,7 @@ const Users = ({ currentUser, handleUserLogout }) => {
 				},
 			})
 			.then((res) => {
+				setAuthorized(true);
 				if (res.status === 200) {
 					setUsers(users.filter((user) => user._id !== id));
 					setCurrentPage(1);
@@ -61,6 +70,7 @@ const Users = ({ currentUser, handleUserLogout }) => {
 			})
 			.catch((error) => {
 				console.error(error);
+				setAuthorized(false);
 			});
 	};
 
@@ -76,6 +86,15 @@ const Users = ({ currentUser, handleUserLogout }) => {
 				<Alert status="error">
 					<AlertIcon />
 					{deleteMessage}
+				</Alert>
+			) : (
+				""
+			)}
+
+			{!authorized ? (
+				<Alert status="error">
+					<AlertIcon />
+					You are not authorized to access this account
 				</Alert>
 			) : (
 				""
@@ -121,6 +140,12 @@ const Users = ({ currentUser, handleUserLogout }) => {
 								firstName={user.firstName}
 								lastName={user.lastName}
 								role={user.role}
+								dob={
+									user.dob
+										? new Date(user.dob).toDateString()
+										: null
+								}
+								age={user.age}
 								handleDelete={handleDelete}
 							/>
 						))

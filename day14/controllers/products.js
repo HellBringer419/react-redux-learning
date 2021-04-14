@@ -36,7 +36,7 @@ exports.postProduct = (req, res, next) => {
 		req.body.imageUrl,
 		req.body.description,
 		req.body.price,
-		new Date(req.body.expiryDate)
+		req.body.expiryDate ? new Date(req.body.expiryDate) : null
 	);
 	if (!product) {
 		const error = new Error("Invalid Product details");
@@ -67,7 +67,7 @@ exports.putProduct = (req, res, next) => {
 		req.body.imageUrl,
 		req.body.description,
 		req.body.price,
-		new Date(req.body.expiryDate)
+		req.body.expiryDate ? new Date(req.body.expiryDate) : null
 	);
 	if (!product) res.status(500).json({ message: "Invalid Product details" });
 	else {
