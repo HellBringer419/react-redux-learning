@@ -72,11 +72,13 @@ exports.putProduct = (req, res, next) => {
 	if (!product) res.status(500).json({ message: "Invalid Product details" });
 	else {
 		product.save((id) => {
-			if (id === 0) res.status(500).json({ message: "error" });
-			else
-				res.status(201).json({
-					message: `Updated Product with id: ${id}`,
-				});
+			if (id === 0) {
+				const error = new Error("Error while saving");
+				error.statusCode = 500;
+				next(error);
+			} else res.status(201).json({
+				message: `Updated Product with id: ${id}`,
+			});
 		});
 	}
 };

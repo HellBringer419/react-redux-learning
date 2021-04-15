@@ -138,7 +138,7 @@ const AddUpdateProduct = ({ history }) => {
 
 		if (validateTitle() && validatePrice() && validateDescription()) {
 			const payload = {
-				id: id === 0 ? null : id,
+				id: id === 0 ? null : id.toString(),
 				title: title,
 				imageUrl: imageUrl,
 				description: description,
