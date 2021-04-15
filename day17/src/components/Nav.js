@@ -3,6 +3,12 @@ import {
 	Avatar,
 	Box,
 	Button,
+	Drawer,
+	DrawerBody,
+	DrawerCloseButton,
+	DrawerContent,
+	DrawerHeader,
+	DrawerOverlay,
 	Flex,
 	HStack,
 	IconButton,
@@ -20,7 +26,7 @@ import { connect } from "react-redux";
 import { Link as RouterLink, withRouter } from "react-router-dom";
 import { ACTIONS } from "../store/reducer";
 
-const Nav = ({ history, currentUser, handleUserLogout }) => {
+const TopNav = ({ history, currentUser, handleUserLogout }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const handleSettings = () => {
@@ -225,6 +231,157 @@ const Nav = ({ history, currentUser, handleUserLogout }) => {
 	);
 };
 
+const SideNav = ({ history, currentUser, handleUserLogout }) => {
+	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	const handleCreate = () => {
+		onClose();
+		history.push("/update/user/0");
+	};
+
+	const handleSettings = () => {
+		onClose();
+		history.push(`/update/user/${currentUser.id}`);
+	};
+
+	const handleLogout = () => {
+		onClose();
+		handleUserLogout();
+		history.push("/");
+	};
+
+	return (
+		<Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+			<IconButton
+				size={"md"}
+				icon={<HamburgerIcon />}
+				aria-label={"Open Menu"}
+				onClick={onOpen}
+			/>
+
+			<Drawer placement={"left"} onClose={onClose} isOpen={isOpen}>
+				<DrawerOverlay>
+					<DrawerContent>
+						<DrawerCloseButton />
+						<DrawerHeader borderBottomWidth="1px">
+							{currentUser.id !== 0 ? (
+								<Menu>
+									<MenuButton
+										as={Button}
+										rounded={"full"}
+										variant={"link"}
+										cursor={"pointer"}
+									>
+										<HStack
+											spacing={2}
+											alignItems={"center"}
+										>
+											<Avatar
+												size={"sm"}
+												src={
+													process.env
+														.REACT_APP_BACKEND_API +
+													"/" +
+													(currentUser.profilePic
+														? currentUser.profilePic
+														: "images/default.jpg")
+												}
+											/>
+											<p> {currentUser.userName} </p>
+										</HStack>
+									</MenuButton>
+									<MenuList>
+										<MenuItem onClick={handleCreate}>
+											Create New User
+										</MenuItem>
+										<MenuItem onClick={handleSettings}>
+											Your Settings
+										</MenuItem>
+										<MenuDivider />
+										<MenuItem onClick={handleLogout}>
+											Log Out
+										</MenuItem>
+									</MenuList>
+								</Menu>
+							) : (
+								<Link
+									px={2}
+									py={1}
+									rounded={"md"}
+									_hover={{
+										textDecoration: "none",
+										// bg: useColorModeValue("gray.200", "gray.700"),
+										color: "blue.500",
+									}}
+									as="div"
+								>
+									<RouterLink to="/login" onClick={onClose}>
+										Login
+									</RouterLink>
+								</Link>
+							)}
+						</DrawerHeader>
+						<DrawerBody>
+							<Link
+								px={2}
+								py={1}
+								rounded={"md"}
+								_hover={{
+									textDecoration: "none",
+									// bg: useColorModeValue("gray.200", "gray.700"),
+									color: "blue.500",
+								}}
+								as="div"
+							>
+								<RouterLink
+									to={
+										currentUser.id !== 0
+											? `/home/${currentUser.id}`
+											: "/"
+									}
+									onClick={onClose}
+								>
+									Home
+								</RouterLink>
+							</Link>
+							<Link
+								px={2}
+								py={1}
+								rounded={"md"}
+								_hover={{
+									textDecoration: "none",
+									// bg: useColorModeValue("gray.200", "gray.700"),
+									color: "blue.500",
+								}}
+								as="div"
+							>
+								<RouterLink to="/products" onClick={onClose}>
+									Products
+								</RouterLink>
+							</Link>
+							<Link
+								px={2}
+								py={1}
+								rounded={"md"}
+								_hover={{
+									textDecoration: "none",
+									// bg: useColorModeValue("gray.200", "gray.700"),
+									color: "blue.500",
+								}}
+								as="div"
+							>
+								<RouterLink to="/users" onClick={onClose}>
+									Users
+								</RouterLink>
+							</Link>
+						</DrawerBody>
+					</DrawerContent>
+				</DrawerOverlay>
+			</Drawer>
+		</Box>
+	);
+};
+
 const mapStateToProps = (state) => {
 	return {
 		currentUser: state.currentUser,
@@ -237,4 +394,7 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Nav));
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(withRouter(SideNav));
