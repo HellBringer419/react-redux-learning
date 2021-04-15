@@ -5,12 +5,11 @@ import { Image } from "@chakra-ui/image";
 import { Input, InputGroup, InputRightAddon } from "@chakra-ui/input";
 import { Box, Container, Heading, Stack, Text } from "@chakra-ui/layout";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router";
 import { ACTIONS } from "../store/reducer";
 
-// TODO: memoize and callback ResetFields
 const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -37,6 +36,27 @@ const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 
 	const id = Number(useParams().user);
 
+	const resetFields = useCallback(() => {
+		if (id === 0) setUserName("");
+		setProfilePic("");
+		setEmail("");
+		setPassword("");
+		setFirstName("");
+		setLastName("");
+		setDob("");
+		setErrors({
+			title: false,
+			imageUrl: false,
+			description: false,
+			price: false,
+			dob: false,
+		});
+		setUserExists(true);
+		setUpdated(false);
+
+		setFileName("");
+	}, [id]);
+
 	useEffect(() => {
 		if (currentUser.id === 0) {
 			history.push("/");
@@ -62,7 +82,7 @@ const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 			}
 		}
 		return () => resetFields();
-	}, [currentUser, history, id]);
+	}, [currentUser, history, id, resetFields]);
 
 	const handleUpload = (event) => {
 		event.preventDefault();
@@ -119,27 +139,6 @@ const UserSetting = ({ history, currentUser, handleUserLogin }) => {
 			setErrors({ ...errors, password: false });
 			return true;
 		}
-	};
-
-	const resetFields = () => {
-		if (id === 0) setUserName("");
-		setProfilePic("");
-		setEmail("");
-		setPassword("");
-		setFirstName("");
-		setLastName("");
-		setDob("");
-		setErrors({
-			title: false,
-			imageUrl: false,
-			description: false,
-			price: false,
-			dob: false,
-		});
-		setUserExists(true);
-		setUpdated(false);
-
-		setFileName("");
 	};
 
 	const handleSubmit = (event) => {

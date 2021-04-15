@@ -3,24 +3,17 @@ import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Image } from "@chakra-ui/image";
 import { Input, InputGroup, InputRightAddon } from "@chakra-ui/input";
-import {
-	Box,
-	Container,
-	Heading,
-
-	Stack,
-	Text
-} from "@chakra-ui/layout";
+import { Box, Container, Heading, Stack, Text } from "@chakra-ui/layout";
 import {
 	NumberDecrementStepper,
 	NumberIncrementStepper,
 	NumberInput,
 	NumberInputField,
-	NumberInputStepper
+	NumberInputStepper,
 } from "@chakra-ui/number-input";
 import { Textarea } from "@chakra-ui/textarea";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 
 const AddUpdateProduct = ({ history }) => {
@@ -34,7 +27,7 @@ const AddUpdateProduct = ({ history }) => {
 		imageUrl: false,
 		description: false,
 		price: false,
-		expiryDate: false
+		expiryDate: false,
 	});
 	const [productExists, setProductExists] = useState(true);
 	const [updated, setUpdated] = useState(false);
@@ -43,6 +36,24 @@ const AddUpdateProduct = ({ history }) => {
 	const fileInput = useRef();
 
 	const id = Number(useParams().id);
+
+	const resetFields = useCallback(() => {
+		if (id === 0) setTitle("");
+		setImageUrl("");
+		setDescription("");
+		setPrice(0);
+		setExpiryDate("");
+		setErrors({
+			title: false,
+			imageUrl: false,
+			description: false,
+			price: false,
+		});
+		setProductExists(true);
+		setUpdated(false);
+
+		setFileName("");
+	}, [id]);
 
 	useEffect(() => {
 		if (id !== 0) {
@@ -56,14 +67,14 @@ const AddUpdateProduct = ({ history }) => {
 					setPrice(res.data.price);
 				})
 				.catch((error) => {
-					console.error(error)
-					setProductExists(false)
+					console.error(error);
+					setProductExists(false);
 				});
 		} else {
 			console.log("CREATE product mode");
 		}
 		return () => resetFields();
-	}, [id]);
+	}, [id, resetFields]);
 
 	const handleUpload = (event) => {
 		event.preventDefault();
@@ -113,24 +124,6 @@ const AddUpdateProduct = ({ history }) => {
 			setErrors({ ...errors, price: false });
 			return true;
 		}
-	};
-
-	const resetFields = () => {
-		if (id === 0) setTitle("");
-		setImageUrl("");
-		setDescription("");
-		setPrice(0);
-		setExpiryDate("");
-		setErrors({
-			title: false,
-			imageUrl: false,
-			description: false,
-			price: false,
-		});
-		setProductExists(true);
-		setUpdated(false);
-
-		setFileName("");
 	};
 
 	const handleSubmit = (event) => {
