@@ -6,6 +6,8 @@ import Footer from "./components/Footer";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Nav from "./components/Nav";
+import Todo from "./components/Todo";
+import TodoContainer from "./components/TodoContainer";
 import UnLoggedInHome from "./components/UnLoggedInHome";
 import UserSetting from "./components/UserSetting";
 import ErrorBoundary from "./ErrorBoundary";
@@ -82,6 +84,9 @@ const App = () => {
 										</Suspense>
 									)}
 								/>
+								<Route path="/todos">
+									<TodoContainer />
+								</Route>
 							</Switch>
 						</Flex>
 						<Footer />

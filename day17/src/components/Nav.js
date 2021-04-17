@@ -374,6 +374,22 @@ const SideNav = ({ history, currentUser, handleUserLogout }) => {
 									Users
 								</RouterLink>
 							</Link>
+
+							<RouterLink to="/todos" onClick={onClose}>
+								<Link
+									px={2}
+									py={1}
+									rounded={"md"}
+									_hover={{
+										textDecoration: "none",
+										// bg: useColorModeValue("gray.200", "gray.700"),
+										color: "blue.500",
+									}}
+									as="div"
+								>
+									Todos
+								</Link>
+							</RouterLink>
 						</DrawerBody>
 					</DrawerContent>
 				</DrawerOverlay>
