@@ -1,14 +1,16 @@
 import { Alert, AlertIcon } from "@chakra-ui/alert";
-import { SearchIcon } from "@chakra-ui/icons";
+import { AddIcon, SearchIcon } from "@chakra-ui/icons";
+import { InputLeftAddon } from "@chakra-ui/input";
 import { Input, InputGroup, InputRightAddon } from "@chakra-ui/input";
-import { Box, Container } from "@chakra-ui/layout";
+import { Box, Container, HStack, Text } from "@chakra-ui/layout";
 import { useEffect, useState } from "react";
 import Todo from "./Todo";
 
 const TodoContainer = () => {
 	const [todos, setTodos] = useState([]);
-    const [visibleTodos, setVisibleTodos] = useState([]);
-    const [searchText, setSearchText] = useState("");
+	const [visibleTodos, setVisibleTodos] = useState([]);
+	const [searchText, setSearchText] = useState("");
+	const [addText, setAddText] = useState("");
 
 	useEffect(() => {
 		const todos = [
@@ -18,8 +20,8 @@ const TodoContainer = () => {
 		];
 		setTodos(todos);
 		return () => {
-            setTodos([]);
-            setSearchText("")
+			setTodos([]);
+			setSearchText("");
 		};
 	}, []);
 
@@ -28,14 +30,23 @@ const TodoContainer = () => {
 		return () => {
 			setVisibleTodos([]);
 		};
-    }, [todos]);
-    
-    const handleSearch = (event) => {
-        setSearchText(event.target.value);
+	}, [todos]);
 
-        // TODO: do the actual search
-        setVisibleTodos(todos.filter((todo) => todo.text.includes(event.target.value)));
-    }
+	const handleSearch = (event) => {
+		if (event.target.value) {
+			setSearchText(event.target.value);
+			setVisibleTodos(
+				todos.filter((todo) =>
+					todo.text
+						.toLowerCase()
+						.includes(event.target.value.toLowerCase())
+				)
+			);
+		}
+		else {
+			setSearchText("");
+		}
+	};
 
 	const handleComplete = (id) => {
 		setTodos(
@@ -45,9 +56,21 @@ const TodoContainer = () => {
 		);
 	};
 
+	const handleAdd = () => {
+		let textToAdd = addText === "" ? searchText : addText;
+
+		// todos are 1-indexed, hence the +1 in `id: todos.length + 1,`
+		const newTodo = {
+			id: todos.length + 1,
+			text: textToAdd,
+			isCompleted: false,
+		};
+		setTodos([...todos, newTodo]);
+	};
+
 	return (
 		<Container py={4}>
-			<InputGroup mb="4">
+			<InputGroup mb="4" variant="filled">
 				<Input
 					type="text"
 					placeholder="Type here to search"
@@ -57,6 +80,7 @@ const TodoContainer = () => {
 				<InputRightAddon
 					children={<SearchIcon />}
 					onClick={handleSearch}
+					cursor="pointer"
 				/>
 			</InputGroup>
 
@@ -90,6 +114,21 @@ const TodoContainer = () => {
 					)}
 				</ul>
 			</Box>
+
+			<HStack boxShadow={"md"} rounded={"lg"} padding="2" spacing="2">
+				<AddIcon as="button" cursor="pointer" onClick={handleAdd} />
+				{searchText === "" ? (
+					<Input
+						type="text"
+						variant="unstyled"
+						placeholder="Type your todo here and click add"
+						value={addText}
+						onChange={(event) => setAddText(event.target.value)}
+					/>
+				) : (
+					<Text> {searchText} </Text>
+				)}
+			</HStack>
 		</Container>
 	);
 };
