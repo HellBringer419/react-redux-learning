@@ -1,6 +1,5 @@
 import { Alert, AlertIcon } from "@chakra-ui/alert";
 import { AddIcon, SearchIcon } from "@chakra-ui/icons";
-import { InputLeftAddon } from "@chakra-ui/input";
 import { Input, InputGroup, InputRightAddon } from "@chakra-ui/input";
 import { Box, Container, HStack, Text } from "@chakra-ui/layout";
 import { useEffect, useState } from "react";
@@ -13,11 +12,12 @@ const TodoContainer = () => {
 	const [addText, setAddText] = useState("");
 
 	useEffect(() => {
-		const todos = [
-			{ id: 1, text: "Implement search", isCompleted: false },
-			{ id: 2, text: "Feature: Add todos", isCompleted: false },
-			{ id: 3, text: "Display all todos", isCompleted: true },
-		];
+		// const todos = [
+		// 	{ id: 1, text: "Implement search", isCompleted: false },
+		// 	{ id: 2, text: "Feature: Add todos", isCompleted: false },
+		// 	{ id: 3, text: "Display all todos", isCompleted: true },
+		// ];
+		const todos = [];
 		setTodos(todos);
 		return () => {
 			setTodos([]);
@@ -42,8 +42,7 @@ const TodoContainer = () => {
 						.includes(event.target.value.toLowerCase())
 				)
 			);
-		}
-		else {
+		} else {
 			setSearchText("");
 		}
 	};
@@ -107,9 +106,9 @@ const TodoContainer = () => {
 							/>
 						))
 					) : (
-						<Alert status="error">
+						<Alert status="warning">
 							<AlertIcon />
-							There was an error processing your request
+							Please add your todos below. (Type then click add icon)
 						</Alert>
 					)}
 				</ul>

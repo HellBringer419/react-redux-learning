@@ -82,19 +82,21 @@ const TopNav = ({ history, currentUser, handleUserLogout }) => {
 							</MenuList>
 						</Menu>
 					) : (
-						<Link
-							px={2}
-							py={1}
-							rounded={"md"}
-							_hover={{
-								textDecoration: "none",
-								// bg: useColorModeValue("gray.200", "gray.700"),
-								bg: "gray.200",
-							}}
-							as="div"
-						>
-							<RouterLink to="/login"> Login </RouterLink>
-						</Link>
+						<RouterLink to="/login">
+							<Link
+								px={2}
+								py={1}
+								rounded={"md"}
+								_hover={{
+									textDecoration: "none",
+									// bg: useColorModeValue("gray.200", "gray.700"),
+									bg: "gray.200",
+								}}
+								as="div"
+							>
+								Login
+							</Link>
+						</RouterLink>
 					)}
 
 					<HStack
@@ -102,53 +104,75 @@ const TopNav = ({ history, currentUser, handleUserLogout }) => {
 						spacing={4}
 						display={{ base: "none", md: "flex" }}
 					>
-						<Link
-							px={2}
-							py={1}
-							rounded={"md"}
-							_hover={{
-								textDecoration: "none",
-								// bg: useColorModeValue("gray.200", "gray.700"),
-								bg: "gray.200",
-							}}
-							as="div"
+						<RouterLink
+							to={
+								currentUser.id !== 0
+									? `/home/${currentUser.id}`
+									: "/"
+							}
+							onClick={onClose}
 						>
-							<RouterLink
-								to={
-									currentUser.id !== 0
-										? `/home/${currentUser.id}`
-										: "/"
-								}
+							<Link
+								px={2}
+								py={1}
+								rounded={"md"}
+								_hover={{
+									textDecoration: "none",
+									// bg: useColorModeValue("gray.200", "gray.700"),
+									color: "blue.500",
+								}}
+								as="div"
 							>
 								Home
-							</RouterLink>
-						</Link>
-						<Link
-							px={2}
-							py={1}
-							rounded={"md"}
-							_hover={{
-								textDecoration: "none",
-								// bg: useColorModeValue("gray.200", "gray.700"),
-								bg: "gray.200",
-							}}
-							as="div"
-						>
-							<RouterLink to="/products"> Products </RouterLink>
-						</Link>
-						<Link
-							px={2}
-							py={1}
-							rounded={"md"}
-							_hover={{
-								textDecoration: "none",
-								// bg: useColorModeValue("gray.200", "gray.700"),
-								bg: "gray.200",
-							}}
-							as="div"
-						>
-							<RouterLink to="/users"> Users </RouterLink>
-						</Link>
+							</Link>
+						</RouterLink>
+						<RouterLink to="/products" onClick={onClose}>
+							<Link
+								px={2}
+								py={1}
+								rounded={"md"}
+								_hover={{
+									textDecoration: "none",
+									// bg: useColorModeValue("gray.200", "gray.700"),
+									color: "blue.500",
+								}}
+								as="div"
+							>
+								Products
+							</Link>
+						</RouterLink>
+
+						<RouterLink to="/users" onClick={onClose}>
+							<Link
+								px={2}
+								py={1}
+								rounded={"md"}
+								_hover={{
+									textDecoration: "none",
+									// bg: useColorModeValue("gray.200", "gray.700"),
+									color: "blue.500",
+								}}
+								as="div"
+							>
+								Users
+							</Link>
+						</RouterLink>
+
+						<RouterLink to="/todos" onClick={onClose}>
+							<Link
+								px={2}
+								py={1}
+								rounded={"md"}
+								_hover={{
+									textDecoration: "none",
+									// bg: useColorModeValue("gray.200", "gray.700"),
+									color: "blue.500",
+								}}
+								as="div"
+							>
+								Todos
+							</Link>
+						</RouterLink>
 					</HStack>
 				</HStack>
 				<Flex alignItems={"center"}>
@@ -177,53 +201,75 @@ const TopNav = ({ history, currentUser, handleUserLogout }) => {
 			{isOpen ? (
 				<Box pb={4}>
 					<Stack as={"nav"} spacing={4}>
-						<Link
-							px={2}
-							py={1}
-							rounded={"md"}
-							_hover={{
-								textDecoration: "none",
-								// bg: useColorModeValue("gray.200", "gray.700"),
-								bg: "gray.200",
-							}}
-							as="div"
+						<RouterLink
+							to={
+								currentUser.id !== 0
+									? `/home/${currentUser.id}`
+									: "/"
+							}
+							onClick={onClose}
 						>
-							<RouterLink
-								to={
-									currentUser.id !== 0
-										? `/home/${currentUser.id}`
-										: "/"
-								}
+							<Link
+								px={2}
+								py={1}
+								rounded={"md"}
+								_hover={{
+									textDecoration: "none",
+									// bg: useColorModeValue("gray.200", "gray.700"),
+									color: "blue.500",
+								}}
+								as="div"
 							>
 								Home
-							</RouterLink>
-						</Link>
-						<Link
-							px={2}
-							py={1}
-							rounded={"md"}
-							_hover={{
-								textDecoration: "none",
-								// bg: useColorModeValue("gray.200", "gray.700"),
-								bg: "gray.200",
-							}}
-							as="div"
-						>
-							<RouterLink to="/products"> Products </RouterLink>
-						</Link>
-						<Link
-							px={2}
-							py={1}
-							rounded={"md"}
-							_hover={{
-								textDecoration: "none",
-								// bg: useColorModeValue("gray.200", "gray.700"),
-								bg: "gray.200",
-							}}
-							as="div"
-						>
-							<RouterLink to="/users"> Users </RouterLink>
-						</Link>
+							</Link>
+						</RouterLink>
+						<RouterLink to="/products" onClick={onClose}>
+							<Link
+								px={2}
+								py={1}
+								rounded={"md"}
+								_hover={{
+									textDecoration: "none",
+									// bg: useColorModeValue("gray.200", "gray.700"),
+									color: "blue.500",
+								}}
+								as="div"
+							>
+								Products
+							</Link>
+						</RouterLink>
+
+						<RouterLink to="/users" onClick={onClose}>
+							<Link
+								px={2}
+								py={1}
+								rounded={"md"}
+								_hover={{
+									textDecoration: "none",
+									// bg: useColorModeValue("gray.200", "gray.700"),
+									color: "blue.500",
+								}}
+								as="div"
+							>
+								Users
+							</Link>
+						</RouterLink>
+
+						<RouterLink to="/todos" onClick={onClose}>
+							<Link
+								px={2}
+								py={1}
+								rounded={"md"}
+								_hover={{
+									textDecoration: "none",
+									// bg: useColorModeValue("gray.200", "gray.700"),
+									color: "blue.500",
+								}}
+								as="div"
+							>
+								Todos
+							</Link>
+						</RouterLink>
 					</Stack>
 				</Box>
 			) : null}
@@ -304,6 +350,32 @@ const SideNav = ({ history, currentUser, handleUserLogout }) => {
 									</MenuList>
 								</Menu>
 							) : (
+								<RouterLink to="/login">
+									<Link
+										px={2}
+										py={1}
+										rounded={"md"}
+										_hover={{
+											textDecoration: "none",
+											// bg: useColorModeValue("gray.200", "gray.700"),
+											bg: "gray.200",
+										}}
+										as="div"
+									>
+										Login
+									</Link>
+								</RouterLink>
+							)}
+						</DrawerHeader>
+						<DrawerBody>
+							<RouterLink
+								to={
+									currentUser.id !== 0
+										? `/home/${currentUser.id}`
+										: "/"
+								}
+								onClick={onClose}
+							>
 								<Link
 									px={2}
 									py={1}
@@ -315,65 +387,40 @@ const SideNav = ({ history, currentUser, handleUserLogout }) => {
 									}}
 									as="div"
 								>
-									<RouterLink to="/login" onClick={onClose}>
-										Login
-									</RouterLink>
-								</Link>
-							)}
-						</DrawerHeader>
-						<DrawerBody>
-							<Link
-								px={2}
-								py={1}
-								rounded={"md"}
-								_hover={{
-									textDecoration: "none",
-									// bg: useColorModeValue("gray.200", "gray.700"),
-									color: "blue.500",
-								}}
-								as="div"
-							>
-								<RouterLink
-									to={
-										currentUser.id !== 0
-											? `/home/${currentUser.id}`
-											: "/"
-									}
-									onClick={onClose}
-								>
 									Home
-								</RouterLink>
-							</Link>
-							<Link
-								px={2}
-								py={1}
-								rounded={"md"}
-								_hover={{
-									textDecoration: "none",
-									// bg: useColorModeValue("gray.200", "gray.700"),
-									color: "blue.500",
-								}}
-								as="div"
-							>
-								<RouterLink to="/products" onClick={onClose}>
+								</Link>
+							</RouterLink>
+							<RouterLink to="/products" onClick={onClose}>
+								<Link
+									px={2}
+									py={1}
+									rounded={"md"}
+									_hover={{
+										textDecoration: "none",
+										// bg: useColorModeValue("gray.200", "gray.700"),
+										color: "blue.500",
+									}}
+									as="div"
+								>
 									Products
-								</RouterLink>
-							</Link>
-							<Link
-								px={2}
-								py={1}
-								rounded={"md"}
-								_hover={{
-									textDecoration: "none",
-									// bg: useColorModeValue("gray.200", "gray.700"),
-									color: "blue.500",
-								}}
-								as="div"
-							>
-								<RouterLink to="/users" onClick={onClose}>
+								</Link>
+							</RouterLink>
+
+							<RouterLink to="/users" onClick={onClose}>
+								<Link
+									px={2}
+									py={1}
+									rounded={"md"}
+									_hover={{
+										textDecoration: "none",
+										// bg: useColorModeValue("gray.200", "gray.700"),
+										color: "blue.500",
+									}}
+									as="div"
+								>
 									Users
-								</RouterLink>
-							</Link>
+								</Link>
+							</RouterLink>
 
 							<RouterLink to="/todos" onClick={onClose}>
 								<Link
@@ -413,4 +460,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(withRouter(SideNav));
+)(withRouter(TopNav));

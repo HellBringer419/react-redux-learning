@@ -33,12 +33,12 @@ const Home = ({ history, currentUser }) => {
 					.
 				</Text>
 				<HStack justifyContent={"space-around"}>
-					<Button bg={"gray.200"}>
-						<RouterLink to="/products"> Products </RouterLink>
-					</Button>
-					<Button>
-						<RouterLink to="/users"> Users </RouterLink>
-					</Button>
+					<RouterLink to="/products">
+						<Button bg={"gray.200"}>Products</Button>
+					</RouterLink>
+					<RouterLink to="/users">
+						<Button>Users</Button>
+					</RouterLink>
 				</HStack>
 			</Stack>
 		</Container>
