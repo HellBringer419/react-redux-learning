@@ -9,7 +9,6 @@ const invalidRoutes = require('./routes/invalid');
 const getController = require('./controllers/get');
 
 const app = express();
-console.info("App READY");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/admin', adminRoutes);
@@ -19,3 +18,4 @@ app.use('/error', invalidRoutes);
 app.use(getController.notFound);
 
 app.listen(5000);
+console.info("App READY listening on port 5000");
