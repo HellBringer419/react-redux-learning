@@ -1,28 +1,28 @@
 import {
-	ApolloClient,
-	ApolloLink,
-	ApolloProvider,
-	createHttpLink,
-	InMemoryCache,
-	NormalizedCacheObject,
+    ApolloClient,
+    ApolloProvider,
+    createHttpLink,
+    InMemoryCache,
 } from "@apollo/client";
 import { FC } from "react";
+import LinkList from "./components/LinkList";
 
-const httpLink: ApolloLink = createHttpLink({ uri: "http://localhost:4000" });
+const httpLink = createHttpLink({ uri: "http://localhost:4000" });
 
-const apolloClient: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-	link: httpLink,
-	cache: new InMemoryCache(),
+const apolloClient = new ApolloClient({
+    link: httpLink,
+    cache: new InMemoryCache(),
 });
 
 const App: FC = () => {
-	return (
-		<ApolloProvider client={apolloClient}>
-			<div className="App">
-				<p> Yo </p>
-			</div>
-		</ApolloProvider>
-	);
+    return (
+        <ApolloProvider client={apolloClient}>
+            <div className="App">
+                <p> Yo </p>
+                <LinkList />
+            </div>
+        </ApolloProvider>
+    );
 };
 
 export default App;
