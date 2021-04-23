@@ -39,3 +39,8 @@ To run a project, use `npm run start` (after configurations). This is common for
 * To run a project use `npm run start`. This is common for all.
 * All projects output which port they are running on the console.
 * Use either your web browser, postman or curl to interact.
+* Also, you may need admin credentials for the day17/ and day14/ projects
+	Username: super@user.com
+	Password: admin
+* The above credentials are defined in users.json file 
+  and you would require this dummy account to access the full project while testing.
