@@ -18,7 +18,7 @@ const ProductCard = ({
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	return (
-		<Container>
+		<Container role="gridcell">
 			<Box
 				maxW={"320px"}
 				w={"full"}

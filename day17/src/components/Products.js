@@ -9,6 +9,9 @@ import { Link as RouterLink } from "react-router-dom";
 import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
 
+// constants for pagination
+export const PRODUCTS_PER_PAGE = 1;
+
 const Products = () => {
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -16,10 +19,9 @@ const Products = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [authorized, setAuthorized] = useState(true);
 
-	// constants for pagination
-	const PER_PAGE = 1;
-	const indexOfLastProductInView = currentPage * PER_PAGE;
-	const indexOfFirstProductInView = indexOfLastProductInView - PER_PAGE;
+	const indexOfLastProductInView = currentPage * PRODUCTS_PER_PAGE;
+	const indexOfFirstProductInView =
+		indexOfLastProductInView - PRODUCTS_PER_PAGE;
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -104,9 +106,18 @@ const Products = () => {
 				""
 			)}
 
-			<SimpleGrid spacing="40px" minChildWidth="220px" margin={"5"}>
+			<SimpleGrid
+				spacing="40px"
+				minChildWidth="220px"
+				margin={"5"}
+				role="grid"
+			>
 				{loading === true ? (
-					<Skeleton>
+					<Skeleton
+						aria-busy="true"
+						role="progressbar"
+						aria-valuetext="loading"
+					>
 						<Box
 							maxW={"320px"}
 							w={"full"}
@@ -135,7 +146,9 @@ const Products = () => {
 								price={Number(product.price)}
 								expiryDate={
 									product.expiryDate
-										? new Date(product.expiryDate).toDateString()
+										? new Date(
+												product.expiryDate
+										  ).toDateString()
 										: null
 								}
 								handleDelete={handleDelete}
@@ -153,15 +166,19 @@ const Products = () => {
 					textAlign={"center"}
 					d="grid"
 					placeItems="center"
+					role="button gridcell"
+					aria-label="add product"
 				>
 					<RouterLink to="/update/product/0">
-						<AddIcon w="10" h="10" />
+						<button aria-label="add product">
+							<AddIcon w="10" h="10" />
+						</button>
 					</RouterLink>
 				</Box>
 			</SimpleGrid>
 
 			<Pagination
-				itemsPerPage={PER_PAGE}
+				itemsPerPage={PRODUCTS_PER_PAGE}
 				totalItems={products.length}
 				handlePaginate={handlePaginate}
 			/>
